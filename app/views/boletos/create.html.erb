@@ -1,2 +1,44 @@
 <h1>Boletos#create</h1>
 <p>Find me in app/views/boletos/create.html.erb</p>
+<%= form_for :boletos do |f| %>
+  
+  <%= f.label :amount, class: "label" %>
+  <div class="control">
+    <%= f.number_field :amount, class: "input", autofocus: true, placeholder: "Amount", required: true %>
+  </div>
+  <%= f.label :expire_at, class: "label" %>
+  <div class="control">
+    <%= f.date_field :expire_at, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_person_name, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_person_name, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_cnpj_cpf, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_cnpj_cpf, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_state, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_state, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_city_name, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_city_name, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_zipcode, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_zipcode, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_address, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_address, class: "input", required: true %>
+  </div>
+  <%= f.label :customer_neighborhood, class: "label" %>
+  <div class="control">
+    <%= f.text_field :customer_neighborhood, class: "input", required: true %>
+  </div>
+  <div class="control">
+    <%= f.submit "Create boleto", class: "button is-primary" %>
+  </div>
+<% end %>
