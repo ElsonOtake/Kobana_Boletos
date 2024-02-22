@@ -75,4 +75,5 @@ group :test do
 
 end
 
-gem 'boletosimples'
+gem "boletosimples"
+gem "dalli"

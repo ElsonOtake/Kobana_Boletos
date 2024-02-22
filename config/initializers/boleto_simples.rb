@@ -8,4 +8,7 @@ BoletoSimples.configure do |c|
   c.user_agent = 'elsonotake@gmail.com' #Colocar um e-mail válido para contatos técnicos relacionado ao uso da API.
   # c.debug = true
   # c.custom_headers = { 'X-CUSTOM' => 'CONTENT' }
+  c.cache = ActiveSupport::Cache.lookup_store(:mem_cache_store, ['localhost:11211'],
+                                              namespace: 'boletosimples_client',
+                                              compress: true)
 end
