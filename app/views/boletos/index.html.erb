@@ -3,27 +3,27 @@
 <table class="table">
   <thead>
     <tr>
-      <th>amount</th>
-      <th>expire_at</th>
-      <th>customer_person_name</th>
-      <th>customer_cnpj_cpf</th>
-      <th>customer_state</th>
-      <th>customer_city_name</th>
-      <th>customer_zipcode</th>
-      <th>customer_address</th>
-      <th>customer_neighborhood</th>
+      <th>Amount</th>
+      <th>Expiration</th>
+      <th>Person</th>
+      <th>CNPJ/CPF</th>
+      <th>State</th>
+      <th>City</th>
+      <th>Zipcode</th>
+      <th>Address</th>
+      <th>Neighborhood</th>
     </tr>
   </thead>
   <tbody>
     <% @billets.each do |billet| %>
       <tr>
-        <td><%= billet[:amount] %></td>
+        <td class="has-text-right"><%= billet[:amount] %></td>
         <td><%= billet[:expire_at] %></td>
         <td><%= billet[:customer_person_name] %></td>
-        <td><%= billet[:customer_cnpj_cpf] %></td>
+        <td class="has-text-right"><%= billet[:customer_cnpj_cpf] %></td>
         <td><%= billet[:customer_state] %></td>
         <td><%= billet[:customer_city_name] %></td>
-        <td><%= billet[:customer_zipcode] %></td>
+        <td class="has-text-right"><%= "#{billet[:customer_zipcode][0, 5]}-#{billet[:customer_zipcode][5, 3]}" %></td>
         <td><%= billet[:customer_address] %></td>
         <td><%= billet[:customer_neighborhood] %></td>
       </tr>
