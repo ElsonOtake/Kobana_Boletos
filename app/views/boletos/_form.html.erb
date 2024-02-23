@@ -1,6 +1,4 @@
-<h1>Boletos#create</h1>
-<p>Find me in app/views/boletos/create.html.erb</p>
-<%= form_for :boletos, method: :get, data: { controller: "select", select_url_value: boletos_cities_url } do |f| %>
+<%= form_for :boleto, url: boletos_url, data: { controller: "select", select_url_value: cities_url } do |f| %>
   
   <%= f.label :amount, class: "label" %>
   <div class="control">
@@ -21,7 +19,7 @@
   <%= f.label :customer_state, class: "label" %>
   <div class="control select">
     <%= f.select :customer_state,
-                 @states,
+                 CS.states(:BR).keys,
                  {
                     include_blank: true
                  },
