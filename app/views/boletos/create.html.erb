@@ -1,6 +1,6 @@
 <h1>Boletos#create</h1>
 <p>Find me in app/views/boletos/create.html.erb</p>
-<%= form_for :boletos do |f| %>
+<%= form_for :boletos, method: :get, data: { controller: "select" } do |f| %>
   
   <%= f.label :amount, class: "label" %>
   <div class="control">
@@ -19,12 +19,15 @@
     <%= f.text_field :customer_cnpj_cpf, class: "input", required: true %>
   </div>
   <%= f.label :customer_state, class: "label" %>
-  <div class="control">
-    <%= f.text_field :customer_state, class: "input", required: true %>
+  <div class="control select">
+    <%= f.select :customer_state, @states, { include_blank: true }, { class: "input", required: true, data: {
+                    action: "change->select#state_change",
+                    select_target: "state"
+                  } } %>
   </div>
   <%= f.label :customer_city_name, class: "label" %>
-  <div class="control">
-    <%= f.text_field :customer_city_name, class: "input", required: true %>
+  <div class="control select">
+    <%= f.select :customer_city_name, CS.cities(:SP), { include_blank: true }, { class: "input", required: true, data: { select_target: "city" } } %>
   </div>
   <%= f.label :customer_zipcode, class: "label" %>
   <div class="control">
