@@ -77,3 +77,4 @@ end
 
 gem "boletosimples"
 gem "dalli"
+gem "city-state"
