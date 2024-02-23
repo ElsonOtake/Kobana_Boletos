@@ -1,6 +1,6 @@
 <h1>Boletos#create</h1>
 <p>Find me in app/views/boletos/create.html.erb</p>
-<%= form_for :boletos, method: :get, data: { controller: "select" } do |f| %>
+<%= form_for :boletos, method: :get, data: { controller: "select", select_url_value: boletos_cities_url } do |f| %>
   
   <%= f.label :amount, class: "label" %>
   <div class="control">
@@ -20,14 +20,36 @@
   </div>
   <%= f.label :customer_state, class: "label" %>
   <div class="control select">
-    <%= f.select :customer_state, @states, { include_blank: true }, { class: "input", required: true, data: {
-                    action: "change->select#state_change",
-                    select_target: "state"
-                  } } %>
+    <%= f.select :customer_state,
+                 @states,
+                 {
+                    include_blank: true
+                 },
+                 {
+                    class: "input",
+                    required: true,
+                    data: {
+                      action: "change->select#state_change",
+                      select_target: "state"
+                    }
+                  }
+    %>
   </div>
   <%= f.label :customer_city_name, class: "label" %>
   <div class="control select">
-    <%= f.select :customer_city_name, CS.cities(:SP), { include_blank: true }, { class: "input", required: true, data: { select_target: "city" } } %>
+    <%= f.select :customer_city_name,
+                 [],
+                 {
+                  include_blank: true
+                 },
+                 {
+                    class: "input",
+                    required: true,
+                    data: {
+                      select_target: "city"
+                    }
+                  }
+    %>
   </div>
   <%= f.label :customer_zipcode, class: "label" %>
   <div class="control">
