@@ -20,7 +20,7 @@
       <tr>
         <td class="has-text-right"><%= billet[:amount] %></td>
         <td><%= billet[:expire_at] %></td>
-        <td><%= billet[:customer_person_name] %></td>
+        <td><%= link_to billet[:customer_person_name], boleto_path(billet[:id]) %></td>
         <td class="has-text-right"><%= billet[:customer_cnpj_cpf] %></td>
         <td><%= billet[:customer_state] %></td>
         <td><%= billet[:customer_city_name] %></td>
