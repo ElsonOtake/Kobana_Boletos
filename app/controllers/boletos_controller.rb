@@ -1,4 +1,5 @@
 class BoletosController < ApplicationController
+
   Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
                 customer_zipcode customer_address customer_neighborhood)
   def index
@@ -19,15 +20,15 @@ class BoletosController < ApplicationController
 
   def create
     @bank_billet = BoletoSimples::BankBillet.new()
-    @bank_billet.amount = params[:boleto][:amount]
-    @bank_billet.expire_at = params[:boleto][:expire_at]
-    @bank_billet.customer_address = params[:boleto][:customer_address]
-    @bank_billet.customer_city_name = params[:boleto][:customer_city_name]
-    @bank_billet.customer_cnpj_cpf = params[:boleto][:customer_cnpj_cpf]
-    @bank_billet.customer_neighborhood = params[:boleto][:customer_neighborhood]
-    @bank_billet.customer_person_name = params[:boleto][:customer_person_name]
-    @bank_billet.customer_state = params[:boleto][:customer_state]
-    @bank_billet.customer_zipcode = params[:boleto][:customer_zipcode]
+    @bank_billet.amount = boleto_params[:amount]
+    @bank_billet.expire_at = boleto_params[:expire_at]
+    @bank_billet.customer_address = boleto_params[:customer_address]
+    @bank_billet.customer_city_name = boleto_params[:customer_city_name]
+    @bank_billet.customer_cnpj_cpf = boleto_params[:customer_cnpj_cpf]
+    @bank_billet.customer_neighborhood = boleto_params[:customer_neighborhood]
+    @bank_billet.customer_person_name = boleto_params[:customer_person_name]
+    @bank_billet.customer_state = boleto_params[:customer_state]
+    @bank_billet.customer_zipcode = boleto_params[:customer_zipcode]
     @bank_billet.save
 
     if @bank_billet.persisted?
@@ -41,4 +42,9 @@ class BoletosController < ApplicationController
   def cancel
   end
 
+  private
+
+  def boleto_params
+    params.require(:boleto).permit(*Required)
+  end
 end
