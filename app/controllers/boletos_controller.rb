@@ -15,9 +15,13 @@ class BoletosController < ApplicationController
 
   def create
     @states = CS.states(:BR).keys
-    puts "**************** #{params}"
   end
 
   def cancel
+  end
+
+  def cities
+    cities = CS.cities(params[:state], :BR)
+    render json: cities
   end
 end
