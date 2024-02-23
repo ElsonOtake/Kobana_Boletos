@@ -2,7 +2,7 @@
   
   <%= f.label :amount, class: "label" %>
   <div class="control">
-    <%= f.number_field :amount, class: "input", autofocus: true, placeholder: "Amount", required: true %>
+    <%= f.number_field :amount, step: "0.01", class: "input", autofocus: true, placeholder: "Amount", required: true %>
   </div>
   <%= f.label :expire_at, class: "label" %>
   <div class="control">
