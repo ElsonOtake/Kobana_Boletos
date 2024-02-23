@@ -1,22 +1,25 @@
 class BoletosController < ApplicationController
+  before_action :set_boleto, only: %i(edit show)
   Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
                 customer_zipcode customer_address customer_neighborhood)
   def index
     # Listar os boletos
     @billets = []
     bank_billets = BoletoSimples::BankBillet.all(page: 1, per_page: 50)
+    # puts "Boletos Retornados: #{@bank_billets.count}"
+    # puts "Página Anterior: #{BoletoSimples.last_request.links[:prev]}"
+    # puts "Próxima Página: #{BoletoSimples.last_request.links[:next]}"
     bank_billets.each do |bank_billet|
       @billets << bank_billet.attributes.slice(:id, :status, *Required)
     end
   end
 
   def edit
-    @boleto_id = params[:id]
   end
 
   def show
     # Pegar informações de um boleto
-    @bank_billet = BoletoSimples::BankBillet.find(params[:id])
+    # @bank_billet = BoletoSimples::BankBillet.find(params[:id])
     # Se o não for encontrado nenhum boleto com o id informado, uma exceção será levantada com a mensagem:
     # Couldn't find BankBillet with 'id'=1
   end
@@ -34,21 +37,31 @@ class BoletosController < ApplicationController
     @bank_billet.customer_zipcode = boleto_params[:customer_zipcode]
     @bank_billet.save
 
-    if @bank_billet.persisted?
+    if @bank_billet.save
+    # if @bank_billet.persisted?
       redirect_to root_path
     else
       puts "Erro :(#{@bank_billet.response_errors})"
-      redirect_to root_path
+      render :new
     end
   end
 
   def update
     # Cancelar um boleto
     @bank_billet = BoletoSimples::BankBillet.cancel(id: params[:id])
-    redirect_to root_path
+    if @bank_billet.response_errors.empty?
+      redirect_to root_path
+    else
+      puts "Erro :(#{@bank_billet.response_errors})"
+      render :edit
+    end
   end
 
   private
+
+  def set_boleto
+    @bank_billet = BoletoSimples::BankBillet.find(params[:id])
+  end
 
   def boleto_params
     params.require(:boleto).permit(*Required)
