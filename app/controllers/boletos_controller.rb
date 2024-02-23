@@ -3,9 +3,8 @@ class BoletosController < ApplicationController
   Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
                 customer_zipcode customer_address customer_neighborhood)
   def index
-    # Listar os boletos
     @billets = []
-    bank_billets = BoletoSimples::BankBillet.all(page: 1, per_page: 50)
+    bank_billets = BoletoSimples::BankBillet.all
     # puts "Boletos Retornados: #{@bank_billets.count}"
     # puts "Página Anterior: #{BoletoSimples.last_request.links[:prev]}"
     # puts "Próxima Página: #{BoletoSimples.last_request.links[:next]}"
@@ -18,13 +17,6 @@ class BoletosController < ApplicationController
   end
 
   def show
-    # Pegar informações de um boleto
-    # @bank_billet = BoletoSimples::BankBillet.find(params[:id])
-    # Se o não for encontrado nenhum boleto com o id informado, uma exceção será levantada com a mensagem:
-    # Couldn't find BankBillet with 'id'=1
-    if @bank_billet.empty?
-      redirect_to root_path
-    end
   end
 
   def create
@@ -50,7 +42,6 @@ class BoletosController < ApplicationController
   end
 
   def update
-    # Cancelar um boleto
     @bank_billet = BoletoSimples::BankBillet.cancel(id: params[:id])
     if @bank_billet.response_errors.empty?
       redirect_to root_path
