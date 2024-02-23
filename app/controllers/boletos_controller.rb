@@ -14,6 +14,8 @@ class BoletosController < ApplicationController
   end
 
   def create
+    @states = CS.states(:BR).keys
+    puts "**************** #{params}"
   end
 
   def cancel
