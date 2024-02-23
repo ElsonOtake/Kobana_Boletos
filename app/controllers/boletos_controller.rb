@@ -22,6 +22,9 @@ class BoletosController < ApplicationController
     # @bank_billet = BoletoSimples::BankBillet.find(params[:id])
     # Se o não for encontrado nenhum boleto com o id informado, uma exceção será levantada com a mensagem:
     # Couldn't find BankBillet with 'id'=1
+    if @bank_billet.empty?
+      redirect_to root_path
+    end
   end
 
   def create
@@ -60,7 +63,11 @@ class BoletosController < ApplicationController
   private
 
   def set_boleto
-    @bank_billet = BoletoSimples::BankBillet.find(params[:id])
+    begin
+      @bank_billet = BoletoSimples::BankBillet.find(params[:id])
+    rescue => error
+      puts error.message
+    end
   end
 
   def boleto_params
