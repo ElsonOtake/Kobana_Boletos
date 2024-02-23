@@ -1,5 +1,4 @@
 class BoletosController < ApplicationController
-
   Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
                 customer_zipcode customer_address customer_neighborhood)
   def index
@@ -7,18 +6,17 @@ class BoletosController < ApplicationController
     @billets = []
     bank_billets = BoletoSimples::BankBillet.all(page: 1, per_page: 50)
     bank_billets.each do |bank_billet|
-      @billets << bank_billet.attributes.slice(:id, *Required)
+      @billets << bank_billet.attributes.slice(:id, :status, *Required)
     end
   end
 
-  def new
-
+  def edit
+    @boleto_id = params[:id]
   end
 
   def show
     # Pegar informações de um boleto
     @bank_billet = BoletoSimples::BankBillet.find(params[:id])
-    puts "************************** #{@bank_billet}"
     # Se o não for encontrado nenhum boleto com o id informado, uma exceção será levantada com a mensagem:
     # Couldn't find BankBillet with 'id'=1
   end
@@ -44,7 +42,10 @@ class BoletosController < ApplicationController
     end
   end
 
-  def cancel
+  def update
+    # Cancelar um boleto
+    @bank_billet = BoletoSimples::BankBillet.cancel(id: params[:id])
+    redirect_to root_path
   end
 
   private
