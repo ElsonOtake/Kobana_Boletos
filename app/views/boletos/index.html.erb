@@ -1,27 +1,28 @@
-<%= link_to "Create boleto",
-            new_boleto_path,
-            class: "button is-primary",
-            data: {
-              controller: "modal",
-              action: "modal#open",
-              turbo_frame: "boleto_frame"
-            }
-%>
+<div class="is-flex is-justify-content-end">
+  <%= link_to "Criar boleto",
+              new_boleto_path,
+              class: "button is-primary is-rounded mb-4",
+              data: {
+                controller: "modal",
+                action: "modal#open",
+                turbo_frame: "boleto_frame"
+              }
+  %>
+</div>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Amount</th>
-      <th>Expiration</th>
-      <th>Person</th>
+      <th>Valor</th>
+      <th>Vencimento</th>
+      <th>Nome</th>
       <th>CNPJ/CPF</th>
-      <th>State</th>
-      <th>City</th>
-      <th>Zipcode</th>
-      <th>Address</th>
-      <th>Neighborhood</th>
-      <th>Status</th>
-      <th>Status</th>
+      <th>Estado</th>
+      <th>Cidade</th>
+      <th>CEP</th>
+      <th>Endereço</th>
+      <th>Bairro</th>
+      <th>Situação</th>
     </tr>
   </thead>
   <tbody id="boletos">
