@@ -2,11 +2,19 @@
 
 <h1>Boletos#show</h1>
 
+<%= turbo_frame_tag :multi_boleto do %>
+  <p style="color: green"><%= notice %></p>
 
-<p style="color: green"><%= notice %></p>
+  <%= render "boletos/boleto", boleto: @bank_billet %>
 
-<%= render "boletos/boleto", boleto: @bank_billet %>
-
-<div>
-  <%= link_to "Back to boletos", boletos_path %>
-</div>
+  <div>
+    <%= link_to "Back to boletos",
+                boletos_path,
+                class: "button is-primary",
+                data: {
+                  controller: "modal",
+                  action: "modal#close"
+                }
+    %>
+  </div>
+<% end %>
