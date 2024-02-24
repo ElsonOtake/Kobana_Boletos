@@ -1,20 +1,25 @@
-<p style="color: green"><%= notice %></p>
-
-<h1>Boletos#show</h1>
-
 <%= turbo_frame_tag :boleto_frame do %>
   <p style="color: green"><%= notice %></p>
 
   <%= render "boletos/boleto", boleto: @bank_billet %>
 
-  <div>
-    <%= link_to "Back to boletos",
+  <div class="is-flex is-justify-content-space-between">
+    <%= link_to "Voltar",
                 boletos_path,
-                class: "button is-primary",
+                class: "button is-primary is-rounded mt-4",
                 data: {
                   controller: "modal",
                   action: "modal#close"
                 }
     %>
+    <% if @bank_billet[:status] == "opened" %>
+      <%= link_to "Cancelar boleto",
+                  edit_boleto_path(@bank_billet[:id]),
+                  class: "button is-danger is-rounded",
+                  data: {
+                    turbo_frame: "boleto_frame"
+                  }
+        %>
+    <% end %>
   </div>
 <% end %>

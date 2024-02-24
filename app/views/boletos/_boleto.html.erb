@@ -1,53 +1,22 @@
-<div id="<%= dom_id boleto %>">
-
-  <p>
-    <strong>id</strong>
-    <%= boleto[:id] %>
-  </p>
-
-  <p>
-    <strong>Amount:</strong>
-    <%= boleto[:amount] %>
-  </p>
-
-  <p>
-    <strong>Expire at:</strong>
-    <%= boleto[:expire_at] %>
-  </p>
-
-  <p>
-    <strong>Customer person name:</strong>
-    <%= boleto[:customer_person_name] %>
-  </p>
-
-  <p>
-    <strong>customer_cnpj_cpf</strong>
-    <%= boleto[:customer_cnpj_cpf] %>
-  </p>
-
-  <p>
-    <strong>customer_state</strong>
-    <%= boleto[:customer_state] %>
-  </p>
-
-  <p>
-    <strong>customer_city_name</strong>
-    <%= boleto[:customer_city_name] %>
-  </p>
-
-  <p>
-    <strong>customer_zipcode</strong>
-    <%= boleto[:customer_zipcode] %>
-  </p>
-
-  <p>
-    <strong>customer_address</strong>
-    <%= boleto[:customer_address] %>
-  </p>
-
-  <p>
-    <strong>customer_neighborhood</strong>
-    <%= boleto[:customer_neighborhood] %>
-  </p>
-
+<div id="<%= dom_id boleto %>" class="columns is-mobile is-multiline is-centered">
+  <% campos = { "Id": "id",
+                "Valor": "amount",
+                "Vencimento": "expire_at",
+                "Nome": "customer_person_name",
+                "CNPJ/CPF": "customer_cnpj_cpf",
+                "Estado": "customer_state",
+                "Cidade": "customer_city_name",
+                "CEP": "customer_zipcode",
+                "Endereço": "customer_address",
+                "Bairro": "customer_neighborhood",
+                "Situação": "status" }
+  %>
+  <% campos.each do |key, value| %>
+    <div class="column is-narrow">
+      <div class="box">
+        <p class="title is-5"><%= key %></p>
+        <p class="subtitle"><%= display(value, boleto[value.to_sym]) %></p>
+      </div>
+    </div>
+  <% end %>
 </div>
