@@ -6,3 +6,6 @@ import { application } from "./application"
 
 import SelectController from "./select_controller"
 application.register("select", SelectController)
+
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)

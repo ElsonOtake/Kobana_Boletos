@@ -1,6 +1,13 @@
-<h1>Boletos#index</h1>
-<p>Find me in app/views/boletos/index.html.erb</p>
-<%= link_to "Create boleto", new_boleto_path, class: "button is-primary" %>
+<%= link_to "Create boleto",
+            new_boleto_path,
+            class: "button is-primary",
+            data: {
+              controller: "modal",
+              action: "modal#open",
+              modal_id_value: "modal-boleto"
+            }
+%>
+
 <table class="table">
   <thead>
     <tr>
@@ -33,3 +40,16 @@
     <% end %>
   </tbody>
 </table>
+
+<div id="modal-boleto" class="modal">
+  <div class="modal-background"></div>
+
+  <div class="modal-content">
+    <div class="box">
+      <p>Modal JS example</p>
+      <!-- Your content -->
+    </div>
+  </div>
+
+  <button class="modal-close is-large" aria-label="close"></button>
+</div>
