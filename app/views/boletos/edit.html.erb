@@ -1,30 +1,32 @@
 <%= turbo_frame_tag :boleto_frame do %>
-  <p>Você tem certeza que quer cancelar o boleto de <%= @bank_billet[:customer_person_name] %> no valor de <%= @bank_billet[:amount] %>?</p>
+  <div class="box">
+    <p class="subtitle">Você tem certeza que quer cancelar o boleto de <%= @bank_billet[:customer_person_name] %> no valor de <%= number_to_currency(@bank_billet[:amount], unit: "") %>?</p>
 
-  <%= link_to "Sim, cancelar",
-              boleto_path(@bank_billet[:id]),
-              data: {
-                turbo_method: :patch,
-                controller: "modal",
-                action: "modal#close"
-              }
-  %>
-
-  <br>
-
-  <div>
-    <%= link_to "Show this boleto",
-                boleto_path(@bank_billet[:id]),
-                data: {
-                  turbo_frame: "boleto_frame"
-                }
-    %> |
-    <%= link_to "Back to boletos",
-                boletos_path,
-                data: {
-                  controller: "modal",
-                  action: "modal#close"
-                }
-    %>
+    <div class="is-flex is-justify-content-space-between mt-4">
+      <%= link_to "Sim, cancelar",
+                  boleto_path(@bank_billet[:id]),
+                  class: "button is-danger is-rounded",
+                  data: {
+                    turbo_method: :patch,
+                    controller: "modal",
+                    action: "modal#close"
+                  }
+      %>
+      <%= link_to "Mostrar boleto",
+                  boleto_path(@bank_billet[:id]),
+                  class: "button is-primary is-rounded",
+                  data: {
+                    turbo_frame: "boleto_frame"
+                  }
+      %>
+      <%= link_to "Voltar",
+                  boletos_path,
+                  class: "button is-primary is-rounded",
+                  data: {
+                    controller: "modal",
+                    action: "modal#close"
+                  }
+      %>
+    </div>
   </div>
 <% end %>
