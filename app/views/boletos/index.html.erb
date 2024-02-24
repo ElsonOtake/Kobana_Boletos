@@ -4,7 +4,8 @@
             data: {
               controller: "modal",
               action: "modal#open",
-              modal_id_value: "modal-boleto"
+              modal_id_value: "modal-boleto",
+              turbo_frame: "multi_boleto"
             }
 %>
 
@@ -46,8 +47,7 @@
 
   <div class="modal-content">
     <div class="box">
-      <p>Modal JS example</p>
-      <!-- Your content -->
+      <%= turbo_frame_tag :multi_boleto %>
     </div>
   </div>
 
