@@ -1,12 +1,31 @@
 <h1>Canceling boleto</h1>
+<%= turbo_frame_tag :multi_boleto do %>
+  <p>Você tem certeza que quer cancelar o boleto de <%= @bank_billet[:customer_person_name] %> no valor de <%= @bank_billet[:amount] %>?</p>
 
-<p>Você tem certeza que quer cancelar o boleto de <%= @bank_billet[:customer_person_name] %> no valor de <%= @bank_billet[:amount] %>?</p>
+  <%= link_to "Sim, cancelar",
+              boleto_path(@bank_billet[:id]),
+              data: {
+                turbo_method: :patch,
+                controller: "modal",
+                action: "modal#close"
+              }
+  %>
 
-<%= link_to "Sim, cancelar", boleto_path(@bank_billet[:id]), data: { 'turbo-method': :patch } %>
+  <br>
 
-<br>
-
-<div>
-  <%= link_to "Show this boleto", boleto_path(@bank_billet[:id]) %> |
-  <%= link_to "Back to boletos", boletos_path %>
-</div>
+  <div>
+    <%= link_to "Show this boleto",
+                boleto_path(@bank_billet[:id]),
+                data: {
+                  turbo_frame: "multi_modal"
+                }
+    %> |
+    <%= link_to "Back to boletos",
+                boletos_path,
+                data: {
+                  controller: "modal",
+                  action: "modal#close"
+                }
+    %>
+  </div>
+<% end %>

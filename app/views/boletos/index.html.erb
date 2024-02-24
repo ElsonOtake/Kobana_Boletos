@@ -20,7 +20,7 @@
       <th>Zipcode</th>
       <th>Address</th>
       <th>Neighborhood</th>
-      <th></th>
+      <th>Status</th>
     </tr>
   </thead>
   <tbody>
@@ -44,7 +44,20 @@
         <td class="has-text-right"><%= "#{billet[:customer_zipcode][0, 5]}-#{billet[:customer_zipcode][5, 3]}" %></td>
         <td><%= billet[:customer_address] %></td>
         <td><%= billet[:customer_neighborhood] %></td>
-        <td><%= link_to "Cancelar", edit_boleto_path(billet[:id]) if billet[:status] == "opened" %></td>
+        <td>
+          <% if billet[:status] == "opened" %>
+            <%= link_to "Cancelar",
+                        edit_boleto_path(billet[:id]),
+                        data: {
+                          controller: "modal",
+                          action: "modal#open",
+                          turbo_frame: "multi_boleto"
+                        }
+            %>
+          <% else %>
+            <%= billet[:status] %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
