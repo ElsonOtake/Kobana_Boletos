@@ -1,5 +1,5 @@
 <tr id="<%= "billet_#{ billet[:id] }" %>">
-  <td class="has-text-right"><%= billet[:amount] %></td>
+  <td class="has-text-right"><%= "#{'%.2f' % billet[:amount]}" %></td>
   <td><%= billet[:expire_at] %></td>
   <td>
     <%= link_to billet[:customer_person_name],
