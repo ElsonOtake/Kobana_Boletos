@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static values = { id: String };
+  static values = { id: { type: String, default: "modal-boleto" } };
 
   openModal = ($el) => {
     $el.classList.add('is-active');
