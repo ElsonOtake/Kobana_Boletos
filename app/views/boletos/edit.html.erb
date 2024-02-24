@@ -1,5 +1,5 @@
 <h1>Canceling boleto</h1>
-<%= turbo_frame_tag :multi_boleto do %>
+<%= turbo_frame_tag :boleto_frame do %>
   <p>Você tem certeza que quer cancelar o boleto de <%= @bank_billet[:customer_person_name] %> no valor de <%= @bank_billet[:amount] %>?</p>
 
   <%= link_to "Sim, cancelar",
