@@ -22,6 +22,11 @@ export default class extends Controller {
     this.openModal(target);
   }
 
+  close = () => {
+    const target = document.getElementById(this.idValue);
+    this.closeModal(target);
+  }
+
   initialize = () => {
     (document.querySelectorAll('.modal-background, .modal-close, .button') || []).forEach(($close) => {
       const $target = $close.closest('.modal');
