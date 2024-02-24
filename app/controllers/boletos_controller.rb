@@ -5,9 +5,6 @@ class BoletosController < ApplicationController
   def index
     @billets = []
     bank_billets = BoletoSimples::BankBillet.all
-    # puts "Boletos Retornados: #{@bank_billets.count}"
-    # puts "Página Anterior: #{BoletoSimples.last_request.links[:prev]}"
-    # puts "Próxima Página: #{BoletoSimples.last_request.links[:next]}"
     bank_billets.each do |bank_billet|
       @billets << bank_billet.attributes.slice(:id, :status, *Required)
     end
@@ -32,22 +29,30 @@ class BoletosController < ApplicationController
     @bank_billet.customer_zipcode = boleto_params[:customer_zipcode]
     @bank_billet.save
 
-    if @bank_billet.save
-    # if @bank_billet.persisted?
-      redirect_to root_path
-    else
-      puts "Erro :(#{@bank_billet.response_errors})"
-      render :new
+    respond_to do |format|
+      if @bank_billet.save
+        # if @bank_billet.persisted?
+        @billet = @bank_billet.attributes.slice(:id, :status, *Required)
+        format.html { redirect_to root_path }
+        format.turbo_stream
+      else
+        puts "Erro :(#{@bank_billet.response_errors})"
+        render :new
+      end
     end
   end
 
   def update
-    @bank_billet = BoletoSimples::BankBillet.cancel(id: params[:id])
-    if @bank_billet.response_errors.empty?
-      redirect_to root_path
-    else
-      puts "Erro :(#{@bank_billet.response_errors})"
-      render :edit
+    cancel = BoletoSimples::BankBillet.cancel(id: params[:id])
+    respond_to do |format|
+      if cancel.response_errors.empty?
+        @billet = BoletoSimples::BankBillet.find(params[:id]).attributes.slice(:id, :status, *Required)
+        format.html { redirect_to root_path }
+        format.turbo_stream
+      else
+        puts "Erro :(#{cancel.response_errors})"
+        render :edit
+      end
     end
   end
 

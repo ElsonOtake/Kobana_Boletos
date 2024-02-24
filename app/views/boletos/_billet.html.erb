@@ -17,6 +17,7 @@
   <td class="has-text-right"><%= "#{billet[:customer_zipcode][0, 5]}-#{billet[:customer_zipcode][5, 3]}" %></td>
   <td><%= billet[:customer_address] %></td>
   <td><%= billet[:customer_neighborhood] %></td>
+  <td><%= billet[:status] %></td>
   <td>
     <% if billet[:status] == "opened" %>
       <%= link_to "Cancelar",

@@ -21,9 +21,10 @@
       <th>Address</th>
       <th>Neighborhood</th>
       <th>Status</th>
+      <th>Status</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="boletos">
     <% @billets.each do |billet| %>
       <%= render "billet", billet: billet %>
     <% end %>
