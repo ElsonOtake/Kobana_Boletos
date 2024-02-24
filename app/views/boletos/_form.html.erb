@@ -62,6 +62,11 @@
     <%= f.text_field :customer_neighborhood, class: "input", required: true %>
   </div>
   <div class="control">
-    <%= f.submit "Create boleto", class: "button is-primary" %>
+    <%= f.submit "Create boleto",
+                 class: "button is-primary",
+                 data: {
+                  controller: "modal",
+                  action: "modal#close"
+                 } %>
   </div>
 <% end %>
