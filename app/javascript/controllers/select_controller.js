@@ -20,7 +20,7 @@ export default class extends Controller {
       this.cityTarget.length = 0;
       const url = new URL(this.urlValue)
       url.searchParams.append("state", this.stateTarget.value)
-      fetch(url.href)
+      fetch(url)
       .then(response => response.json())
       .then((data) => this.load_option(this.cityTarget, data))
       .catch(() => [])
