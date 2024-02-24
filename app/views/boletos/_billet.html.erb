@@ -1,0 +1,35 @@
+<tr id="<%= "billet_#{ billet[:id] }" %>">
+  <td class="has-text-right"><%= billet[:amount] %></td>
+  <td><%= billet[:expire_at] %></td>
+  <td>
+    <%= link_to billet[:customer_person_name],
+    boleto_path(billet[:id]),
+    data: {
+      controller: "modal",
+      action: "modal#open",
+      turbo_frame: "boleto_frame"
+    }
+    %>
+  </td>
+  <td class="has-text-right"><%= billet[:customer_cnpj_cpf] %></td>
+  <td><%= billet[:customer_state] %></td>
+  <td><%= billet[:customer_city_name] %></td>
+  <td class="has-text-right"><%= "#{billet[:customer_zipcode][0, 5]}-#{billet[:customer_zipcode][5, 3]}" %></td>
+  <td><%= billet[:customer_address] %></td>
+  <td><%= billet[:customer_neighborhood] %></td>
+  <td>
+    <% if billet[:status] == "opened" %>
+      <%= link_to "Cancelar",
+                  edit_boleto_path(billet[:id]),
+                  class: "button is-danger is-small is-rounded is-light",
+                  data: {
+                    controller: "modal",
+                    action: "modal#open",
+                    turbo_frame: "boleto_frame"
+                  }
+      %>
+    <% else %>
+      <%= billet[:status].capitalize %>
+    <% end %>
+  </td>
+</tr>
