@@ -59,7 +59,7 @@
       <%= form.label :customer_city_name, "Cidade", class: "label" %>
       <div class="control select" style="width: 200px;">
         <%= form.select :customer_city_name,
-                    [],
+                    @cities,
                     {
                       include_blank: true
                     },
