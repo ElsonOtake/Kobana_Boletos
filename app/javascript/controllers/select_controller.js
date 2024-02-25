@@ -14,8 +14,6 @@ export default class extends Controller {
   }
 
   state_change = () => {
-    console.log("state_change");
-
     if (this.stateTarget.value != "") {
       this.cityTarget.length = 0;
       const url = new URL(this.urlValue)
