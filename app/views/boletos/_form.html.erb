@@ -1,86 +1,88 @@
-<%= form_for :boleto, url: boletos_url, data: { controller: "select modal", action: "turbo:submit-end->modal#submitEnd", select_url_value: cities_url } do |f| %>
-  <div class="columns is-multiline is-centered">
-    <div class="column">
-      <%= f.label :customer_person_name, "Nome", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.text_field :customer_person_name, class: "input", required: true %>
-      </div>
-    </div>
-    <div class="column">
-      <%= f.label :customer_cnpj_cpf, "CNPJ/CPF", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.text_field :customer_cnpj_cpf, class: "input", required: true %>
-      </div>
-    </div>
-    <div class="column">
-      <%= f.label :amount, "Valor", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.number_field :amount, step: "0.01", class: "input", required: true %>
-      </div>
-    </div>
+<%= form_with model: boleto, url: boletos_url, data: { controller: "select modal", action: "turbo:submit-end->modal#submitEnd", select_url_value: cities_url } do |form| %>
+  <%= form.fields_for :boleto do |boletos_form| %>
+    <div class="columns is-multiline is-centered">
       <div class="column">
-      <%= f.label :expire_at, "Vencimento", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.date_field :expire_at, class: "input", required: true %>
+        <%= boletos_form.label :customer_person_name, "Nome", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.text_field :customer_person_name, class: "input", required: true %>
+        </div>
       </div>
-    </div>
-    <div class="column">
-      <%= f.label :customer_address, "Endereço", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.text_field :customer_address, class: "input", required: true %>
+      <div class="column">
+        <%= boletos_form.label :customer_cnpj_cpf, "CNPJ/CPF", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.text_field :customer_cnpj_cpf, class: "input", required: true %>
+        </div>
       </div>
-    </div>
-    <div class="column">
-      <%= f.label :customer_zipcode, "CEP", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.text_field :customer_zipcode, class: "input", required: true %>
+      <div class="column">
+        <%= boletos_form.label :amount, "Valor", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.number_field :amount, step: "0.01", class: "input", required: true %>
+        </div>
       </div>
-    </div>
-    <div class="column">
-      <%= f.label :customer_state, "Estado", class: "label" %>
-      <div class="control select" style="width: 200px;">
-        <%= f.select :customer_state,
-                    CS.states(:BR).keys,
-                    {
+        <div class="column">
+        <%= boletos_form.label :expire_at, "Vencimento", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.date_field :expire_at, class: "input", required: true %>
+        </div>
+      </div>
+      <div class="column">
+        <%= boletos_form.label :customer_address, "Endereço", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.text_field :customer_address, class: "input", required: true %>
+        </div>
+      </div>
+      <div class="column">
+        <%= boletos_form.label :customer_zipcode, "CEP", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.text_field :customer_zipcode, class: "input", required: true %>
+        </div>
+      </div>
+      <div class="column">
+        <%= boletos_form.label :customer_state, "Estado", class: "label" %>
+        <div class="control select" style="width: 200px;">
+          <%= boletos_form.select :customer_state,
+                      CS.states(:BR).keys,
+                      {
+                          include_blank: true
+                      },
+                      {
+                          class: "input",
+                          required: true,
+                          data: {
+                            action: "change->select#state_change",
+                            select_target: "state"
+                          }
+                        }
+          %>
+        </div>
+      </div>
+      <div class="column">
+        <%= boletos_form.label :customer_city_name, "Cidade", class: "label" %>
+        <div class="control select" style="width: 200px;">
+          <%= boletos_form.select :customer_city_name,
+                      [],
+                      {
                         include_blank: true
-                    },
-                    {
-                        class: "input",
-                        required: true,
-                        data: {
-                          action: "change->select#state_change",
-                          select_target: "state"
+                      },
+                      {
+                          class: "input",
+                          required: true,
+                          data: {
+                            select_target: "city"
+                          }
                         }
-                      }
-        %>
+          %>
+        </div>
+      </div>
+      <div class="column">
+        <%= boletos_form.label :customer_neighborhood, "Bairro", class: "label" %>
+        <div class="control" style="width: 200px;">
+          <%= boletos_form.text_field :customer_neighborhood, class: "input", required: true %>
+        </div>
       </div>
     </div>
-    <div class="column">
-      <%= f.label :customer_city_name, "Cidade", class: "label" %>
-      <div class="control select" style="width: 200px;">
-        <%= f.select :customer_city_name,
-                    [],
-                    {
-                      include_blank: true
-                    },
-                    {
-                        class: "input",
-                        required: true,
-                        data: {
-                          select_target: "city"
-                        }
-                      }
-        %>
-      </div>
-    </div>
-    <div class="column">
-      <%= f.label :customer_neighborhood, "Bairro", class: "label" %>
-      <div class="control" style="width: 200px;">
-        <%= f.text_field :customer_neighborhood, class: "input", required: true %>
-      </div>
-    </div>
-  </div>
+  <% end %>
   <div class="control" style="width: 200px;">
-    <%= f.submit "Criar boleto", class: "button is-primary is-rounded mt-4" %>
+    <%= form.submit "Criar boleto", class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>
