@@ -28,7 +28,7 @@ export default class extends Controller {
   }
 
   initialize = () => {
-    (document.querySelectorAll('.modal-background, .modal-close, .button') || []).forEach(($close) => {
+    (document.querySelectorAll('.modal-background, .modal-close') || []).forEach(($close) => {
       const $target = $close.closest('.modal');
   
       $close.addEventListener('click', () => {
