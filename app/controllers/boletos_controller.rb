@@ -1,8 +1,9 @@
 class BoletosController < ApplicationController
-  before_action :set_boleto, only: %i(edit show)
+  before_action :set_boleto, only: %i[ edit show ]
   Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
                 customer_zipcode customer_address customer_neighborhood)
-  def index
+  
+def index
     @billets = []
     bank_billets = BoletoSimples::BankBillet.all
     bank_billets.each do |bank_billet|
@@ -10,36 +11,26 @@ class BoletosController < ApplicationController
     end
   end
 
+  def show
+  end
+
   def new
+    @boleto = Boleto.new
   end
 
   def edit
   end
 
-  def show
-  end
-
   def create
-    @bank_billet = BoletoSimples::BankBillet.new()
-    @bank_billet.amount = boleto_params[:amount]
-    @bank_billet.expire_at = boleto_params[:expire_at]
-    @bank_billet.customer_address = boleto_params[:customer_address]
-    @bank_billet.customer_city_name = boleto_params[:customer_city_name]
-    @bank_billet.customer_cnpj_cpf = boleto_params[:customer_cnpj_cpf]
-    @bank_billet.customer_neighborhood = boleto_params[:customer_neighborhood]
-    @bank_billet.customer_person_name = boleto_params[:customer_person_name]
-    @bank_billet.customer_state = boleto_params[:customer_state]
-    @bank_billet.customer_zipcode = boleto_params[:customer_zipcode]
-    @bank_billet.save
+    @boleto= Boleto.new(boleto_params)
 
     respond_to do |format|
-      if @bank_billet.save
-        # if @bank_billet.persisted?
-        @billet = @bank_billet.attributes.slice(:id, :status, *Required)
-        format.html { redirect_to root_path }
+      if @boleto.persisted?
+        @billet = @boleto.attributes.with_indifferent_access
+        format.html { redirect_to root_path, notice: "Boleto criado com sucesso." }
         format.turbo_stream
       else
-        puts "Erro :(#{@bank_billet.response_errors})"
+        # puts "Erro :(#{@bank_billet.response_errors})"
         format.html { render :new, status: :unprocessable_entity }
       end
     end
@@ -50,11 +41,11 @@ class BoletosController < ApplicationController
     respond_to do |format|
       if cancel.response_errors.empty?
         @billet = BoletoSimples::BankBillet.find(params[:id]).attributes.slice(:id, :status, *Required)
-        format.html { redirect_to root_path }
+        format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso." }
         format.turbo_stream
       else
         puts "Erro :(#{cancel.response_errors})"
-        render :edit
+        format.html { render :edit, status: :unprocessable_entity }
       end
     end
   end
