@@ -10,6 +10,9 @@ class BoletosController < ApplicationController
     end
   end
 
+  def new
+  end
+
   def edit
   end
 
@@ -37,7 +40,7 @@ class BoletosController < ApplicationController
         format.turbo_stream
       else
         puts "Erro :(#{@bank_billet.response_errors})"
-        render :new
+        format.html { render :new, status: :unprocessable_entity }
       end
     end
   end
