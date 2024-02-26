@@ -80,7 +80,8 @@
       </div>
     </div>
   </div>
-  <div class="control" style="width: 200px;">
+  <div class="is-flex is-justify-content-space-between">
     <%= form.submit "Criar boleto", class: "button is-primary is-rounded mt-4" %>
+    <%= link_to "Voltar", boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>
