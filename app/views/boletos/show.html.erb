@@ -1,7 +1,7 @@
 <%= turbo_frame_tag :boleto_frame do %>
   <p style="color: green"><%= notice %></p>
 
-  <%= render "boletos/boleto", boleto: @bank_billet %>
+  <%= render "boletos/boleto", boleto: @boleto %>
 
   <div class="is-flex is-justify-content-space-between">
     <%= link_to "Voltar",
@@ -12,9 +12,9 @@
                   action: "modal#close"
                 }
     %>
-    <% if @bank_billet[:status] == "opened" %>
+    <% if @boleto[:status] == "opened" %>
       <%= link_to "Cancelar boleto",
-                  edit_boleto_path(@bank_billet[:id]),
+                  edit_boleto_path(@boleto[:id]),
                   class: "button is-danger is-rounded",
                   data: {
                     turbo_frame: "boleto_frame"

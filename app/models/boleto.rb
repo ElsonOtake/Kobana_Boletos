@@ -13,7 +13,7 @@ class Boleto
   attribute :customer_address, :string, default: nil
   attribute :customer_neighborhood, :string, default: nil
   attribute :status, :string, default: nil
-  attribute :response_errors, :string, default: nil
+  attribute :response_errors, :string, default: "{}"
 
   def create
     bank_billet = BoletoSimples::BankBillet.create(
@@ -34,5 +34,13 @@ class Boleto
   
   def persisted?
     JSON.parse(self.response_errors).empty?
+  end
+
+  def find(id)
+    begin
+      BoletoSimples::BankBillet.find(id)
+    rescue => error
+      error.message
+    end
   end
 end

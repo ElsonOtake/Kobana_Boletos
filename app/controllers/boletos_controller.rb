@@ -25,7 +25,7 @@ def index
   def create
     @boleto= Boleto.new(boleto_params)
     @boleto.create
-
+    
     respond_to do |format|
       if @boleto.persisted?
         @billet = @boleto.attributes.with_indifferent_access
@@ -56,10 +56,10 @@ def index
   private
 
   def set_boleto
-    begin
-      @bank_billet = BoletoSimples::BankBillet.find(params[:id])
-    rescue => error
-      puts error.message
+    @boleto = Boleto.new.find(params[:id])
+    if @boleto.is_a? String
+      flash.notice = @boleto
+      redirect_to root_path 
     end
   end
 
