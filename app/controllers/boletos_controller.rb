@@ -40,10 +40,10 @@ def index
   end
 
   def update
-    cancel = BoletoSimples::BankBillet.cancel(id: params[:id])
+    boleto = Boleto.new.cancel(params[:id])
     respond_to do |format|
-      if cancel.response_errors.empty?
-        @billet = BoletoSimples::BankBillet.find(params[:id]).attributes.slice(:id, :status, *Required)
+      if boleto.persisted?
+        @billet = Boleto.new.find(params[:id])
         format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso." }
         format.turbo_stream
       else
