@@ -29,6 +29,7 @@ def index
         format.turbo_stream
       else
         # puts "Erro :(#{@bank_billet.response_errors})"
+        @boleto = boleto
         @cities = CS.cities(boleto_params[:customer_state], :BR)
         format.html { render :new, status: :unprocessable_entity }
       end

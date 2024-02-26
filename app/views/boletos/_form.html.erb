@@ -1,4 +1,18 @@
 <%= form_with model: boleto, url: boletos_url, method: :post, data: {  controller: "select modal", action: "turbo:submit-end->modal#submitEnd", select_url_value: cities_url } do |form| %>
+  <% unless boleto.persisted? %>
+    <% errors = JSON.parse(boleto.response_errors) %>
+    <div style="color: red">
+      <h2><%= pluralize(errors.count, "erro") %> <%= errors.count == 1 ? "impede" : "impedem" %> esse boleto de ser salvo:</h2>
+
+      <ul>
+        <% errors.each do |key, value| %>
+          <% value.each do |message| %>
+            <li><%= key %> <%= message %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <div class="columns is-multiline is-centered">
     <div class="column">
       <%= form.label :customer_person_name, "Nome", class: "label" %>
