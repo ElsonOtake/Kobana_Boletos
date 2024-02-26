@@ -23,7 +23,7 @@ class BoletosController < ApplicationController
     respond_to do |format|
       if @boleto.persisted?
         format.html { redirect_to root_path, notice: "Boleto criado com sucesso." }
-        format.turbo_stream
+        format.turbo_stream { flash.now[:notice] = "Boleto criado com sucesso." }
       else
         @cities = CS.cities(boleto_params[:customer_state], :BR)
         format.html { render :new, status: :unprocessable_entity }
@@ -37,7 +37,7 @@ class BoletosController < ApplicationController
       if boleto.persisted?
         @boleto = Boleto.new.find(params[:id])
         format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso." }
-        format.turbo_stream
+        format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso." }
       else
         puts "Erro :(#{cancel.response_errors})"
         format.html { render :edit, status: :unprocessable_entity }

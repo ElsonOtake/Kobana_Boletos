@@ -1,1 +1,2 @@
-<%= turbo_stream.replace "boleto_#{@boleto[:id]}", partial: "boletos/bank_billet", locals: { boleto: @boleto } %>
+<%= turbo_stream.replace "boleto_#{@boleto.id}", partial: "boletos/bank_billet", locals: { boleto: @boleto } %>
+<%= turbo_stream.prepend "flash", partial: "layouts/flash" %>
