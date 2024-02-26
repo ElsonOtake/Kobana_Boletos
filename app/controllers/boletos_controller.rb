@@ -4,11 +4,7 @@ class BoletosController < ApplicationController
                 customer_zipcode customer_address customer_neighborhood)
   
 def index
-    @boletos = []
-    bank_billets = BoletoSimples::BankBillet.all
-    bank_billets.each do |bank_billet|
-      @boletos << bank_billet.attributes.slice(:id, :status, *Required)
-    end
+    @boletos = Boleto.new.all
   end
 
   def show

@@ -15,6 +15,15 @@ class Boleto
   attribute :status, :string, default: nil
   attribute :response_errors, :string, default: "{}"
 
+  def all
+    boletos = []
+    bank_billets = BoletoSimples::BankBillet.all
+    bank_billets.each do |bank_billet|
+      boletos << bank_billet.attributes.slice(*Boleto.attribute_names)
+    end
+    boletos
+  end
+
   def create
     boleto = BoletoSimples::BankBillet.create(
       amount: self.amount,
