@@ -16,7 +16,7 @@ class Boleto
   attribute :response_errors, :string, default: "{}"
 
   def create
-    bank_billet = BoletoSimples::BankBillet.create(
+    boleto = BoletoSimples::BankBillet.create(
       amount: self.amount,
       expire_at: self.expire_at,
       customer_person_name: self.customer_person_name,
@@ -27,9 +27,10 @@ class Boleto
       customer_address: self.customer_address,
       customer_neighborhood: self.customer_neighborhood
       )
-    self.id = bank_billet.id
-    self.status = bank_billet.status
-    self.response_errors = bank_billet.response_errors.to_json
+    self.id = boleto.id
+    self.status = boleto.status
+    self.response_errors = boleto.response_errors.to_json
+    self
   end
   
   def persisted?
@@ -38,9 +39,28 @@ class Boleto
 
   def find(id)
     begin
-      BoletoSimples::BankBillet.find(id)
+      boleto = BoletoSimples::BankBillet.find(id)
+      self.id = boleto.id
+      self.amount = boleto.amount
+      self.expire_at = boleto.expire_at
+      self.customer_person_name = boleto.customer_person_name
+      self.customer_cnpj_cpf = boleto.customer_cnpj_cpf
+      self.customer_state = boleto.customer_state
+      self.customer_city_name = boleto.customer_city_name
+      self.customer_zipcode = boleto.customer_zipcode
+      self.customer_address = boleto.customer_address
+      self.customer_neighborhood = boleto.customer_neighborhood
+      self.status = boleto.status
+      self.response_errors = boleto.response_errors.to_json
+      self.attributes.with_indifferent_access
     rescue => error
       error.message
     end
+  end
+
+  def cancel(id)
+    boleto = BoletoSimples::BankBillet.cancel(id: id)
+    self.response_errors = boleto.response_errors.to_json
+    self
   end
 end
