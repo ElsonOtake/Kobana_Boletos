@@ -24,6 +24,7 @@ def index
 
   def create
     @boleto= Boleto.new(boleto_params)
+    @boleto.create
 
     respond_to do |format|
       if @boleto.persisted?

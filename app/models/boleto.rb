@@ -13,9 +13,9 @@ class Boleto
   attribute :customer_address, :string, default: nil
   attribute :customer_neighborhood, :string, default: nil
   attribute :status, :string, default: nil
+  attribute :response_errors, :string, default: nil
 
-  def persisted?
-    puts "amount: #{self.amount} name: #{self.customer_person_name}"
+  def create
     bank_billet = BoletoSimples::BankBillet.create(
       amount: self.amount,
       expire_at: self.expire_at,
@@ -26,9 +26,13 @@ class Boleto
       customer_zipcode: self.customer_zipcode,
       customer_address: self.customer_address,
       customer_neighborhood: self.customer_neighborhood
-    )
+      )
     self.id = bank_billet.id
     self.status = bank_billet.status
-    bank_billet.response_errors.empty?
+    self.response_errors = bank_billet.response_errors.to_json
+  end
+  
+  def persisted?
+    JSON.parse(self.response_errors).empty?
   end
 end
