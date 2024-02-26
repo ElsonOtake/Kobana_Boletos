@@ -12,9 +12,9 @@
                   action: "modal#close"
                 }
     %>
-    <% if @boleto[:status] == "opened" %>
+    <% if @boleto.status == "opened" %>
       <%= link_to "Cancelar boleto",
-                  edit_boleto_path(@boleto[:id]),
+                  edit_boleto_path(@boleto.id),
                   class: "button is-danger is-rounded",
                   data: {
                     turbo_frame: "boleto_frame"

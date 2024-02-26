@@ -1,9 +1,7 @@
 class BoletosController < ApplicationController
   before_action :set_boleto, only: %i[ edit show ]
-  Required = %i(amount expire_at customer_person_name customer_cnpj_cpf customer_state customer_city_name 
-                customer_zipcode customer_address customer_neighborhood)
   
-def index
+  def index
     @boletos = Boleto.new.all
   end
 
@@ -19,17 +17,14 @@ def index
   end
 
   def create
-    boleto= Boleto.new(boleto_params)
-    boleto.create
+    @boleto= Boleto.new(boleto_params)
+    @boleto.create
     
     respond_to do |format|
-      if boleto.persisted?
-        @boleto = boleto.attributes.with_indifferent_access
+      if @boleto.persisted?
         format.html { redirect_to root_path, notice: "Boleto criado com sucesso." }
         format.turbo_stream
       else
-        # puts "Erro :(#{@bank_billet.response_errors})"
-        @boleto = boleto
         @cities = CS.cities(boleto_params[:customer_state], :BR)
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -61,6 +56,7 @@ def index
   end
 
   def boleto_params
-    params.require(:boleto).permit(*Required)
+    params.require(:boleto).permit(:amount, :expire_at, :customer_person_name, :customer_cnpj_cpf, :customer_state,
+                                   :customer_city_name, :customer_zipcode, :customer_address, :customer_neighborhood)
   end
 end

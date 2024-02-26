@@ -1,7 +1,7 @@
-<tr id="<%= "boleto_#{ boleto[:id] }" %>">
+<tr id="<%= "boleto_#{ boleto.id }" %>">
   <td>
-    <%= link_to boleto[:customer_person_name],
-    boleto_path(boleto[:id]),
+    <%= link_to boleto.customer_person_name,
+    boleto_path(boleto.id),
     data: {
       controller: "modal",
       action: "modal#open",
@@ -9,18 +9,18 @@
     }
     %>
   </td>
-  <td class="has-text-right"><%= boleto[:customer_cnpj_cpf] %></td>
-  <td class="has-text-right"><%= number_to_currency(boleto[:amount], unit: "") %></td>
-  <td><%= boleto[:expire_at] %></td>
-  <td><%= boleto[:customer_address] %></td>
-  <td class="has-text-right"><%= "#{boleto[:customer_zipcode][0, 5]}-#{boleto[:customer_zipcode][5, 3]}" %></td>
-  <td><%= boleto[:customer_neighborhood] %></td>
-  <td><%= boleto[:customer_city_name] %></td>
-  <td class="has-text-centered"><%= boleto[:customer_state] %></td>
+  <td class="has-text-right"><%= boleto.customer_cnpj_cpf %></td>
+  <td class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
+  <td><%= boleto.expire_at %></td>
+  <td><%= boleto.customer_address %></td>
+  <td class="has-text-right"><%= "#{boleto.customer_zipcode[0, 5]}-#{boleto.customer_zipcode[5, 3]}" %></td>
+  <td><%= boleto.customer_neighborhood %></td>
+  <td><%= boleto.customer_city_name %></td>
+  <td class="has-text-centered"><%= boleto.customer_state %></td>
   <td>
-    <% if boleto[:status] == "opened" %>
+    <% if boleto.status == "opened" %>
       <%= link_to "Cancelar",
-                  edit_boleto_path(boleto[:id]),
+                  edit_boleto_path(boleto.id),
                   class: "button is-danger is-small is-rounded is-light",
                   data: {
                     controller: "modal",
@@ -29,7 +29,7 @@
                   }
       %>
     <% else %>
-      <%= boleto[:status].capitalize %>
+      <%= boleto.status.capitalize %>
     <% end %>
   </td>
 </tr>

@@ -19,7 +19,7 @@ class Boleto
     boletos = []
     bank_billets = BoletoSimples::BankBillet.all
     bank_billets.each do |bank_billet|
-      boletos << bank_billet.attributes.slice(*Boleto.attribute_names)
+      boletos << Boleto.new(bank_billet.attributes.slice(*Boleto.attribute_names))
     end
     boletos
   end
@@ -61,7 +61,7 @@ class Boleto
       self.customer_neighborhood = boleto.customer_neighborhood
       self.status = boleto.status
       self.response_errors = boleto.response_errors.to_json
-      self.attributes.with_indifferent_access
+      self
     rescue => error
       error.message
     end
