@@ -78,7 +78,7 @@
         <%= form.select :customer_city_name,
                     @cities,
                     {
-                      include_blank: true
+                      prompt: "Selecione o estado"
                     },
                     {
                       class: errors.has_key?(:customer_city_name) ? "input is-danger" : "input",
