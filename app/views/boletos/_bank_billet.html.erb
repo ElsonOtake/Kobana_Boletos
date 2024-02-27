@@ -1,4 +1,4 @@
-<tr id="<%= "boleto_#{ boleto.id }" %>">
+<tr id="<%= dom_id boleto %>">
   <td>
     <%= link_to boleto.customer_person_name,
     boleto_path(boleto.id),
