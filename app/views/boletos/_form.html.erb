@@ -7,7 +7,7 @@
       <ul>
         <% errors.each do |key, value| %>
           <% value.each do |message| %>
-            <li><%= key %> <%= message %></li>
+            <li><%= t(key) %> <%= message %></li>
           <% end %>
         <% end %>
       </ul>
@@ -15,43 +15,43 @@
   <% end %>
   <div class="columns is-multiline is-centered">
     <div class="column">
-      <%= form.label :customer_person_name, "Nome", class: "label" %>
+      <%= form.label :customer_person_name, t(:customer_person_name), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.text_field :customer_person_name, class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_cnpj_cpf, "CNPJ/CPF", class: "label" %>
+      <%= form.label :customer_cnpj_cpf, t(:customer_cnpj_cpf), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.text_field :customer_cnpj_cpf, class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :amount, "Valor", class: "label" %>
+      <%= form.label :amount, t(:amount), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.number_field :amount, step: "0.01", class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :expire_at, "Vencimento", class: "label" %>
+      <%= form.label :expire_at, t(:expire_at), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.date_field :expire_at, class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_address, "Endereço", class: "label" %>
+      <%= form.label :customer_address, t(:customer_address), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.text_field :customer_address, class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_zipcode, "CEP", class: "label" %>
+      <%= form.label :customer_zipcode, t(:customer_zipcode), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.text_field :customer_zipcode, class: "input", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_state, "Estado", class: "label" %>
+      <%= form.label :customer_state, t(:customer_state), class: "label" %>
       <div class="control select" style="width: 200px;">
         <%= form.select :customer_state,
                     CS.states(:BR).keys,
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_city_name, "Cidade", class: "label" %>
+      <%= form.label :customer_city_name, t(:customer_city_name), class: "label" %>
       <div class="control select" style="width: 200px;">
         <%= form.select :customer_city_name,
                     @cities,
@@ -88,7 +88,7 @@
       </div>
     </div>
     <div class="column">
-      <%= form.label :customer_neighborhood, "Bairro", class: "label" %>
+      <%= form.label :customer_neighborhood, t(:customer_neighborhood), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.text_field :customer_neighborhood, class: "input", required: true %>
       </div>

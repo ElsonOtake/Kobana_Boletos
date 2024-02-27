@@ -1,6 +1,9 @@
 <%= turbo_frame_tag :boleto_frame do %>
   <div class="box">
-    <p class="subtitle">Você tem certeza que quer cancelar o boleto de <%= @boleto.customer_person_name %> no valor de <%= number_to_currency(@boleto.amount, unit: "") %>?</p>
+    <p class="subtitle">
+      Você tem certeza que quer cancelar o boleto de <%= @boleto.customer_person_name %>
+      no valor de <%= number_to_currency(@boleto.amount, unit: "") %>?
+    </p>
 
     <div class="is-flex is-justify-content-space-between mt-4">
       <%= link_to "Sim, cancelar",
