@@ -2,10 +2,10 @@
 
   <%= render "boletos/boleto", boleto: @boleto %>
 
-  <div class="is-flex is-justify-content-space-between">
+  <div class="is-flex is-justify-content-space-between mt-4">
     <%= link_to "Voltar",
                 boletos_path,
-                class: "button is-primary is-rounded mt-4",
+                class: "button is-primary is-rounded",
                 data: {
                   controller: "modal",
                   action: "modal#close"
