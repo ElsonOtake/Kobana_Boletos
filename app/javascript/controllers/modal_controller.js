@@ -4,11 +4,11 @@ export default class extends Controller {
   static values = { id: { type: String, default: "modal-boleto" } };
 
   initialize = () => {
-    (document.querySelectorAll('.modal-background, .modal-close') || []).forEach(($close) => {
-      const $target = $close.closest('.modal');
+    (document.querySelectorAll('.modal-background, .modal-close') || []).forEach((close) => {
+      const target = close.closest('.modal');
   
-      $close.addEventListener('click', () => {
-        this.closeModal($target);
+      close.addEventListener('click', () => {
+        this.closeModal(target);
       });
     });
   
@@ -19,17 +19,17 @@ export default class extends Controller {
     });
   }
 
-  openModal = ($el) => {
-    $el.classList.add('is-active');
+  openModal = (el) => {
+    el.classList.add('is-active');
   }
 
-  closeModal = ($el) => {
-    $el.classList.remove('is-active');
+  closeModal = (el) => {
+    el.classList.remove('is-active');
   }
 
   closeAllModals = () => {
-    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-      this.closeModal($modal);
+    (document.querySelectorAll('.modal') || []).forEach((modal) => {
+      this.closeModal(modal);
     });
   }
 
