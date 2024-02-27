@@ -1,35 +1,33 @@
 <%= turbo_frame_tag :boleto_frame do %>
-  <div class="box">
-    <p class="subtitle">
-      Você tem certeza que quer cancelar o boleto de <%= @boleto.customer_person_name %>
-      no valor de <%= number_to_currency(@boleto.amount, unit: "") %>?
-    </p>
+  <p class="subtitle">
+    Você tem certeza que quer cancelar o boleto de <%= @boleto.customer_person_name %>
+    no valor de <%= number_to_currency(@boleto.amount, unit: "") %>?
+  </p>
 
-    <div class="is-flex is-justify-content-space-between mt-4">
-      <%= link_to "Sim, cancelar",
-                  boleto_path(@boleto.id),
-                  class: "button is-danger is-rounded",
-                  data: {
-                    turbo_method: :patch,
-                    controller: "modal",
-                    action: "modal#close"
-                  }
-      %>
-      <%= link_to "Mostrar boleto",
-                  boleto_path(@boleto.id),
-                  class: "button is-primary is-rounded",
-                  data: {
-                    turbo_frame: "boleto_frame"
-                  }
-      %>
-      <%= link_to "Voltar",
-                  boletos_path,
-                  class: "button is-primary is-rounded",
-                  data: {
-                    controller: "modal",
-                    action: "modal#close"
-                  }
-      %>
-    </div>
+  <div class="is-flex is-justify-content-space-evenly is-flex-wrap-wrap">
+    <%= link_to "Sim, cancelar",
+                boleto_path(@boleto.id),
+                class: "button is-danger is-rounded mt-4",
+                data: {
+                  turbo_method: :patch,
+                  controller: "modal",
+                  action: "modal#close"
+                }
+    %>
+    <%= link_to "Mostrar boleto",
+                boleto_path(@boleto.id),
+                class: "button is-primary is-rounded mt-4",
+                data: {
+                  turbo_frame: "boleto_frame"
+                }
+    %>
+    <%= link_to "Voltar",
+                boletos_path,
+                class: "button is-primary is-rounded mt-4",
+                data: {
+                  controller: "modal",
+                  action: "modal#close"
+                }
+    %>
   </div>
 <% end %>
