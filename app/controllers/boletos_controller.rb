@@ -22,8 +22,8 @@ class BoletosController < ApplicationController
     
     respond_to do |format|
       if @boleto.persisted?
-        format.html { redirect_to root_path, notice: "Boleto criado com sucesso." }
-        format.turbo_stream { flash.now[:notice] = "Boleto criado com sucesso." }
+        format.html { redirect_to root_path, notice: "Boleto criado com sucesso" }
+        format.turbo_stream { flash.now[:notice] = "Boleto criado com sucesso" }
       else
         @cities = CS.cities(boleto_params[:customer_state], :BR)
         format.html { render :new, status: :unprocessable_entity }
@@ -33,14 +33,14 @@ class BoletosController < ApplicationController
 
   def update
     boleto = Boleto.new.cancel(params[:id])
+    @boleto = Boleto.new.find(params[:id])
     respond_to do |format|
       if boleto.persisted?
-        @boleto = Boleto.new.find(params[:id])
-        format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso." }
-        format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso." }
+        format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso" }
+        format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso" }
       else
-        puts "Erro :(#{cancel.response_errors})"
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :index, status: :unprocessable_entity }
+        format.turbo_stream { flash.now[:notice] = JSON.parse(boleto.response_errors).first[:title] }
       end
     end
   end
@@ -50,8 +50,10 @@ class BoletosController < ApplicationController
   def set_boleto
     @boleto = Boleto.new.find(params[:id])
     if @boleto.is_a? String
-      flash.notice = @boleto
-      redirect_to root_path 
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "Boleto não localizado" }
+        format.turbo_stream { flash.now[:notice] = "Boleto não localizado" }
+      end
     end
   end
 
