@@ -1,21 +1,9 @@
 <div class="columns is-mobile is-multiline is-centered">
-  <% campos = { "Id": "id",
-                "Valor": "amount",
-                "Vencimento": "expire_at",
-                "Nome": "customer_person_name",
-                "CNPJ/CPF": "customer_cnpj_cpf",
-                "Estado": "customer_state",
-                "Cidade": "customer_city_name",
-                "CEP": "customer_zipcode",
-                "Endereço": "customer_address",
-                "Bairro": "customer_neighborhood",
-                "Situação": "status" }
-  %>
-  <% campos.each do |key, value| %>
+  <% (Boleto.attribute_names - Array("response_errors")).each do |attr| %>
     <div class="column is-narrow">
       <div class="box">
-        <p class="title is-5"><%= key %></p>
-        <p class="subtitle"><%= display(value, boleto.send(value)) %></p>
+        <p class="title is-5"><%= t(attr) %></p>
+        <p class="subtitle"><%= display(attr, boleto.send(attr)) %></p>
       </div>
     </div>
   <% end %>
