@@ -9,14 +9,11 @@
     }
     %>
   </td>
-  <td class="has-text-right"><%= boleto.customer_cnpj_cpf %></td>
+  <td class="has-text-right is-hidden-touch"><%= boleto.customer_cnpj_cpf %></td>
   <td class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
-  <td><%= boleto.expire_at %></td>
-  <td><%= boleto.customer_address %></td>
-  <td class="has-text-right"><%= "#{boleto.customer_zipcode[0, 5]}-#{boleto.customer_zipcode[5, 3]}" %></td>
-  <td><%= boleto.customer_neighborhood %></td>
-  <td><%= boleto.customer_city_name %></td>
-  <td class="has-text-centered"><%= boleto.customer_state %></td>
+  <td class="is-hidden-mobile"><%= boleto.expire_at %></td>
+  <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
+  <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td>
     <% if boleto.status == "opened" %>
       <%= link_to "Cancelar",

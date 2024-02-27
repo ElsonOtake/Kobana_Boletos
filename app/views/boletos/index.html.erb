@@ -10,18 +10,15 @@
   %>
 </div>
 
-<table class="table">
+<table class="table is-striped is-fullwidth">
   <thead>
     <tr>
       <th><%= t(:customer_person_name) %></th>
-      <th><%= t(:customer_cnpj_cpf) %></th>
+      <th class="is-hidden-touch"><%= t(:customer_cnpj_cpf) %></th>
       <th><%= t(:amount) %></th>
-      <th><%= t(:expire_at) %></th>
-      <th><%= t(:customer_address) %></th>
-      <th><%= t(:customer_zipcode) %></th>
-      <th><%= t(:customer_neighborhood) %></th>
-      <th><%= t(:customer_city_name) %></th>
-      <th><%= t(:customer_state) %></th>
+      <th class="is-hidden-mobile"><%= t(:expire_at) %></th>
+      <th class="is-hidden-touch"><%= t(:customer_city_name) %></th>
+      <th class="is-hidden-touch"><%= t(:customer_state) %></th>
       <th><%= t(:status) %></th>
     </tr>
   </thead>
