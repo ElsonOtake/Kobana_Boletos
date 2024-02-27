@@ -48,6 +48,8 @@ $input-shadow: none;
 }
 
 .flash_message {
+  position: absolute;
+  top: 1 rem;
   animation-name: appear-then-fade;
   animation-duration: 6s;
 }
