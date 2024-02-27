@@ -20,37 +20,37 @@
     <div class="column">
       <%= form.label :customer_person_name, t(:customer_person_name), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.text_field :customer_person_name, class: errors.has_key?(:customer_person_name) ? "input is-danger" : "input", required: true %>
+        <%= form.text_field :customer_person_name, class: errors.has_key?(:customer_person_name) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
       <%= form.label :customer_cnpj_cpf, t(:customer_cnpj_cpf), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.text_field :customer_cnpj_cpf, class: errors.has_key?(:customer_cnpj_cpf) ? "input is-danger" : "input", required: true %>
+        <%= form.text_field :customer_cnpj_cpf, class: errors.has_key?(:customer_cnpj_cpf) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
       <%= form.label :amount, t(:amount), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.number_field :amount, step: "0.01", class: errors.has_key?(:amount) ? "input is-danger" : "input", required: true %>
+        <%= form.number_field :amount, step: "0.01", class: errors.has_key?(:amount) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
       <%= form.label :expire_at, t(:expire_at), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.date_field :expire_at, class: errors.has_key?(:expire_at) ? "input is-danger" : "input", required: true %>
+        <%= form.date_field :expire_at, class: errors.has_key?(:expire_at) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
       <%= form.label :customer_address, t(:customer_address), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.text_field :customer_address, class: errors.has_key?(:customer_address) ? "input is-danger" : "input", required: true %>
+        <%= form.text_field :customer_address, class: errors.has_key?(:customer_address) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
       <%= form.label :customer_zipcode, t(:customer_zipcode), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.text_field :customer_zipcode, class: errors.has_key?(:customer_zipcode) ? "input is-danger" : "input", required: true %>
+        <%= form.text_field :customer_zipcode, class: errors.has_key?(:customer_zipcode) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
@@ -62,7 +62,7 @@
                         include_blank: true
                     },
                     {
-                      class: errors.has_key?(:customer_state) ? "input is-danger" : "input",
+                      class: errors.has_key?(:customer_state) ? "input is-danger" : "input is-info",
                       required: true,
                       data: {
                         action: "change->select#state_change",
@@ -81,7 +81,7 @@
                       prompt: "Selecione o estado"
                     },
                     {
-                      class: errors.has_key?(:customer_city_name) ? "input is-danger" : "input",
+                      class: errors.has_key?(:customer_city_name) ? "input is-danger" : "input is-info",
                       required: true,
                       data: {
                         select_target: "city"
@@ -93,7 +93,7 @@
     <div class="column">
       <%= form.label :customer_neighborhood, t(:customer_neighborhood), class: "label" %>
       <div class="control" style="width: 200px;">
-        <%= form.text_field :customer_neighborhood, class: errors.has_key?(:customer_neighborhood) ? "input is-danger" : "input", required: true %>
+        <%= form.text_field :customer_neighborhood, class: errors.has_key?(:customer_neighborhood) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
   </div>
