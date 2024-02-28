@@ -15,7 +15,7 @@
   <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td>
-    <% if boleto.status == "opened" %>
+    <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to "Cancelar",
                   edit_boleto_path(boleto.id),
                   class: "button is-danger is-small is-rounded is-light",
