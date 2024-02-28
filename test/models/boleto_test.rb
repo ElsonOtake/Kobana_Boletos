@@ -199,6 +199,28 @@ class BoletoTest < ActiveSupport::TestCase
     assert_not boleto.persisted?
   end
 
+  test 'deve retornar lista de boletos' do
+    params = {
+      amount: 132.99,
+      expire_at: "2024-06-08",
+      customer_person_name: "Museu do Amanhã",
+      customer_cnpj_cpf: "04.393.475/0004-99",
+      customer_state: "RJ",
+      customer_city_name: "Rio de Janeiro",
+      customer_zipcode: "20081240",
+      customer_address: "Praça Mauá, 1",
+      customer_neighborhood: "Centro"
+    }
+    boleto = Boleto.new(params)
+    boleto.create
+    assert boleto.persisted?
+    boletos = Boleto.new.all
+    assert boletos.count > 0
+    assert_instance_of Array, boletos
+    assert_instance_of Boleto, boletos.first
+    assert_instance_of Boleto, boletos.last
+  end
+
   test 'deve recuperar valores do boleto criado a partir do id' do
     params = {
       amount: 132.99,
@@ -228,11 +250,39 @@ class BoletoTest < ActiveSupport::TestCase
     assert_equal novo.response_errors, "{}"
   end
 
-  test 'não deve recuperar valores do boleto se o id for invalido' do
+  test 'não deve recuperar valores do boleto se o id for inválido' do
     boleto = Boleto.new.find(0)
     assert_not boleto.persisted?
     assert_not_equal boleto.response_errors, "{}"
-    message = JSON.parse(boleto.response_errors.gsub(":title=>", '"title": ')).first.with_indifferent_access
+    message = JSON.parse(boleto.response_errors).first.with_indifferent_access
     assert message.has_key? "title"
+  end
+
+  test 'deve cancelar o boleto se o id for válido' do
+    params = {
+      amount: 132.99,
+      expire_at: "2024-06-08",
+      customer_person_name: "Museu do Amanhã",
+      customer_cnpj_cpf: "04.393.475/0004-99",
+      customer_state: "RJ",
+      customer_city_name: "Rio de Janeiro",
+      customer_zipcode: "20081240",
+      customer_address: "Praça Mauá, 1",
+      customer_neighborhood: "Centro"
+    }
+    boleto = Boleto.new(params)
+    boleto.create
+    assert boleto.persisted?
+    cancel = Boleto.new.cancel(boleto.id)
+    assert cancel.persisted?
+  end
+
+  test 'não deve cancelar o boleto se o id for inválido' do
+    boleto = Boleto.new.cancel(0)
+    assert_not boleto.persisted?
+    assert_not_equal boleto.response_errors, "{}"
+    message = JSON.parse(boleto.response_errors).first.with_indifferent_access
+    assert message.has_key? "title"
+    assert message.has_key? :title
   end
 end
