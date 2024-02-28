@@ -81,7 +81,7 @@ class Boleto
 
   def add_message(message)
     erro = Boleto.new
-    erro.response_errors = [Hash[:title, message]].to_json.gsub(":title=>", '"title": ')
+    erro.response_errors = [Hash[:title, message]].to_json
     erro
   end
 end
