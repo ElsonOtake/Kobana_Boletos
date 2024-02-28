@@ -35,15 +35,12 @@ class BoletosController < ApplicationController
     boleto = Boleto.new.cancel(params[:id])
     @boleto = Boleto.new.find(params[:id])
     respond_to do |format|
-      if boleto.is_a? String
-        format.html { render :index, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:notice] = boleto }
-      elsif boleto.persisted?
+      if boleto.persisted?
         format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso" }
         format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso" }
       else
         format.html { render :index, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:notice] = JSON.parse(boleto.response_errors).first[:title] }      
+        format.turbo_stream { flash.now[:notice] = JSON.parse(boleto.response_errors.gsub(":title=>", '"title": ')).first.with_indifferent_access[:title] }      
       end
     end
   end
@@ -54,7 +51,7 @@ class BoletosController < ApplicationController
     @boleto = Boleto.new.find(params[:id])
     unless @boleto.persisted?
       respond_to do |format|
-        message = JSON.parse(@boleto.response_errors.gsub(":erro=>", '"erro": '))["erro"].first
+        message = JSON.parse(boleto.response_errors.gsub(":title=>", '"title": ')).first.with_indifferent_access[:title]
         format.html { redirect_to root_path, notice: message }
         format.turbo_stream { flash.now[:notice] = message }
       end

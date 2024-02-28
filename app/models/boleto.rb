@@ -43,7 +43,7 @@ class Boleto
   end
   
   def persisted?
-    JSON.parse(self.response_errors.gsub(":erro=>", '"erro": ')).empty?
+    JSON.parse(self.response_errors.gsub(":title=>", '"title": ')).empty?
   end
 
   def find(id)
@@ -63,15 +63,25 @@ class Boleto
       self.response_errors = boleto.response_errors.to_json
       self
     rescue => error
-      erro = Boleto.new
-      erro.response_errors = Hash[:erro, [error.message]]
-      erro
+      add_message(error.message)
     end
   end
 
   def cancel(id)
-    boleto = BoletoSimples::BankBillet.cancel(id: id)
-    self.response_errors = boleto.response_errors.to_json
-    self
+    begin
+      boleto = BoletoSimples::BankBillet.cancel(id: id)
+      self.response_errors = boleto.response_errors.to_json
+      self
+    rescue => error
+      add_message(error.message)
+    end
+  end
+
+  private
+
+  def add_message(message)
+    erro = Boleto.new
+    erro.response_errors = [Hash[:title, message]]
+    erro
   end
 end
