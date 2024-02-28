@@ -33,12 +33,13 @@ class BoletosController < ApplicationController
 
   def update
     boleto = Boleto.new.cancel(params[:id])
-    @boleto = Boleto.new.find(params[:id])
     respond_to do |format|
       if boleto.persisted?
+        @id = params[:id]
         format.html { redirect_to root_path, notice: "Boleto cancelado com sucesso" }
         format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso" }
       else
+        @id = nil
         format.html { render :index, status: :unprocessable_entity }
         format.turbo_stream { flash.now[:notice] = JSON.parse(boleto.response_errors).first.with_indifferent_access[:title] }      
       end

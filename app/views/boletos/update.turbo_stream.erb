@@ -1,2 +1,6 @@
-<%= turbo_stream.replace "boleto_#{@boleto.id}", partial: "boletos/bank_billet", locals: { boleto: @boleto } %>
+<% unless @id.nil? %>
+  <%= turbo_stream.update "status_#{@id}" do %>
+    Canceled
+  <% end %>
+<% end %>
 <%= turbo_stream.prepend :flash, partial: "layouts/flash" %>

@@ -14,7 +14,7 @@
   <td class="is-hidden-mobile"><%= boleto.expire_at %></td>
   <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
-  <td>
+  <td id=<%= "status_#{boleto.id}" %>>
     <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to "Cancelar",
                   edit_boleto_path(boleto.id),
