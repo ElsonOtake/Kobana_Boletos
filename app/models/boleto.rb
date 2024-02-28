@@ -43,7 +43,7 @@ class Boleto
   end
   
   def persisted?
-    JSON.parse(self.response_errors).empty?
+    JSON.parse(self.response_errors.gsub(":erro=>", '"erro": ')).empty?
   end
 
   def find(id)
@@ -63,7 +63,9 @@ class Boleto
       self.response_errors = boleto.response_errors.to_json
       self
     rescue => error
-      error.message
+      erro = Boleto.new
+      erro.response_errors = Hash[:erro, [error.message]]
+      erro
     end
   end
 
