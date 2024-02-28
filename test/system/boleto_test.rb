@@ -22,11 +22,13 @@ class BoletoTest < ApplicationSystemTestCase
     visit root_path
   
     click_on "Criar boleto"
+
+    name = "System Test #{rand(10000)}"
   
-    fill_in "Nome", with: "System Test"
+    fill_in "Nome", with: name
     fill_in "CNPJ/CPF", with: "04.393.475/0004-99"
     fill_in "Valor", with: 24.5
-    fill_in "Vencimento", with: "12/31/2024"
+    fill_in "Vencimento", with: (Date.today + 15).strftime("%m/%d/%Y")
     fill_in "Endereço", with: "Praça Mauá, 1"
     fill_in "CEP", with: "20081240"
     select "RJ", from: "Estado"
@@ -39,17 +41,17 @@ class BoletoTest < ApplicationSystemTestCase
 
     sleep 2
 
-    click_on "System Test"
+    click_on name
 
     assert_text 'Id'
     assert_text 'Nome'
-    assert_text 'System Test'
+    assert_text name
     assert_text 'CNPJ/CPF'
     assert_text '04.393.475/0004-99'
     assert_text 'Valor'
     assert_text '24.5'
     assert_text 'Vencimento'
-    assert_text '2024-12-31'
+    assert_text (Date.today + 15).on_weekday? ? (Date.today + 15).strftime("%Y-%m-%d") : (Date.today + 17).beginning_of_week.strftime("%Y-%m-%d")
     assert_text 'Cidade'
     assert_text 'Rio de Janeiro'
     assert_text 'Estado'
@@ -67,7 +69,7 @@ class BoletoTest < ApplicationSystemTestCase
 
     click_on "Cancelar boleto"
 
-    assert_text 'Você tem certeza que quer cancelar o boleto de System Test no valor de 24.50?'
+    assert_text "Você tem certeza que quer cancelar o boleto de #{name} no valor de 24.50?"
     assert_selector "p.subtitle"
     assert_selector "a.button", text: "Sim, cancelar"
     assert_selector "a.button", text: "Mostrar boleto"
