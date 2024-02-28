@@ -40,8 +40,9 @@ class BoletosController < ApplicationController
         format.turbo_stream { flash.now[:notice] = "Boleto cancelado com sucesso" }
       else
         @id = nil
-        format.html { render :index, status: :unprocessable_entity }
-        format.turbo_stream { flash.now[:notice] = JSON.parse(boleto.response_errors).first.with_indifferent_access[:title] }      
+        message = JSON.parse(boleto.response_errors).first.with_indifferent_access[:title]
+        format.html { redirect_to root_path, notice: message, status: :unprocessable_entity }
+        format.turbo_stream { flash.now[:notice] = message }      
       end
     end
   end
