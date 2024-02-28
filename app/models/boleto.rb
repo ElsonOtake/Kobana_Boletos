@@ -36,8 +36,8 @@ class Boleto
       customer_address: self.customer_address,
       customer_neighborhood: self.customer_neighborhood
       )
-    self.id = boleto.id
-    self.status = boleto.status
+    self.id = boleto.id unless boleto.id.nil?
+    self.status = boleto.status unless defined?(boleto.status).nil?
     self.response_errors = boleto.response_errors.to_json
     self
   end
