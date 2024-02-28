@@ -22,7 +22,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'deve criar boleto com valores fornecidos' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -34,7 +34,7 @@ class BoletoTest < ActiveSupport::TestCase
     boleto = Boleto.new(params)
     assert_nil boleto.id
     assert_equal boleto.amount, 132.99
-    assert_equal boleto.expire_at, "2024-06-08".to_date
+    assert_equal boleto.expire_at, (Date.today + 15).on_weekday? ? (Date.today + 15).to_date : (Date.today + 17).beginning_of_week
     assert_equal boleto.customer_person_name, "Museu do Amanhã"
     assert_equal boleto.customer_cnpj_cpf, "04.393.475/0004-99"
     assert_equal boleto.customer_state, "RJ"
@@ -67,7 +67,7 @@ class BoletoTest < ActiveSupport::TestCase
   end
 
   test 'deve armazenar expire_at como Date' do
-    boleto = Boleto.new(expire_at: "2024-12-12")
+    boleto = Boleto.new(expire_at: Date.today + 15)
     assert_instance_of Date, boleto.expire_at
   end
 
@@ -76,8 +76,13 @@ class BoletoTest < ActiveSupport::TestCase
     assert_nil boleto.expire_at
   end
 
-  test 'não deve armazenar expire_at se a data não for válida' do
-    boleto = Boleto.new(expire_at: "2024-02-31")
+  test 'deve armazenar expire_at se a data for válida no passado' do
+    boleto = Boleto.new(expire_at: Date.today - 1)
+    assert_instance_of Date, boleto.expire_at
+  end
+
+  test 'não deve armazenar expire_at se a data for inválida' do
+    boleto = Boleto.new(expire_at: "2030-02-31")
     assert_nil boleto.expire_at
   end
 
@@ -130,7 +135,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'deve criar novo boleto a partir de dados da instância' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -150,7 +155,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'não deve criar novo boleto a partir de dados da instância se o CNPJ/CPF for invalido' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "11.222.333/4567-89",
       customer_state: "RJ",
@@ -168,7 +173,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'não deve criar novo boleto a partir de dados da instância se o amount for invalido' do
     params = {
       amount: -9.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -185,7 +190,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'não deve criar novo boleto a partir de dados da instância se a data for no passado' do
     params = {
       amount: 132.99,
-      expire_at: "2023-06-08",
+      expire_at: Date.today - 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -202,7 +207,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'deve retornar lista de boletos' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -224,7 +229,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'deve recuperar valores do boleto criado a partir do id' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-10",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
@@ -239,7 +244,7 @@ class BoletoTest < ActiveSupport::TestCase
     novo = Boleto.new.find(boleto.id)
     assert_equal novo.id, boleto.id
     assert_equal novo.amount, 132.99
-    assert_equal novo.expire_at, "2024-06-10".to_date
+    assert_equal novo.expire_at, (Date.today + 15).on_weekday? ? (Date.today + 15).to_date : (Date.today + 17).beginning_of_week
     assert_equal novo.customer_person_name, "Museu do Amanhã"
     assert_equal novo.customer_cnpj_cpf, "04.393.475/0004-99"
     assert_equal novo.customer_state, "RJ"
@@ -261,7 +266,7 @@ class BoletoTest < ActiveSupport::TestCase
   test 'deve cancelar o boleto se o id for válido' do
     params = {
       amount: 132.99,
-      expire_at: "2024-06-08",
+      expire_at: Date.today + 15,
       customer_person_name: "Museu do Amanhã",
       customer_cnpj_cpf: "04.393.475/0004-99",
       customer_state: "RJ",
