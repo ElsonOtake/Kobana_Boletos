@@ -34,7 +34,7 @@ class BoletoTest < ActiveSupport::TestCase
     boleto = Boleto.new(params)
     assert_nil boleto.id
     assert_equal boleto.amount, 132.99
-    assert_equal boleto.expire_at, (Date.today + 15).on_weekday? ? (Date.today + 15).to_date : (Date.today + 17).beginning_of_week
+    assert_equal boleto.expire_at, (Date.today + 15).to_date
     assert_equal boleto.customer_person_name, "Museu do Amanhã"
     assert_equal boleto.customer_cnpj_cpf, "04.393.475/0004-99"
     assert_equal boleto.customer_state, "RJ"
