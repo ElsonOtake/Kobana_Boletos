@@ -263,7 +263,7 @@ class BoletoTest < ActiveSupport::TestCase
     assert message.has_key? "title"
   end
 
-  test 'deve cancelar o boleto se o id for válido' do
+  test 'deve cancelar o boleto se o id for válido e não permitir cancelar boleto já cancelado' do
     params = {
       amount: 132.99,
       expire_at: Date.today + 15,
@@ -280,6 +280,8 @@ class BoletoTest < ActiveSupport::TestCase
     assert boleto.persisted?
     cancel = Boleto.new.cancel(boleto.id)
     assert cancel.persisted?
+    repeated_cancel = Boleto.new.cancel(boleto.id)
+    assert_not repeated_cancel.persisted?
   end
 
   test 'não deve cancelar o boleto se o id for inválido' do
