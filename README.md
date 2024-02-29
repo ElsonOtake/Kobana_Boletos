@@ -115,6 +115,7 @@ Preencha as variáveis de ambiente
 Instale este projeto com:
 ```sh
   bundle install
+  npm install
 ```
 
 ### Utilização
