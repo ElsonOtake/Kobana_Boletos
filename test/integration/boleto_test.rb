@@ -159,7 +159,7 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
     assert_select "a", "Voltar"
 
     # Confirmar cancelamento
-    patch "/boletos/#{id}", params: { id: id }
+    patch "/boletos/#{id}"
 
     assert_response :redirect
     follow_redirect!
@@ -174,7 +174,7 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
     assert_select "a", "Voltar"
 
     # Confirmar cancelamento de boleto já cancelado
-    patch "/boletos/#{id}", params: { id: id }
+    patch "/boletos/#{id}"
 
     assert_response 422 # Unprocessable Entity
   end
