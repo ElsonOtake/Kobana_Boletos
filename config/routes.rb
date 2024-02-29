@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :boletos
+  resources :boletos, except: :destroy
   get "cities", controller: "home"
   root "boletos#index"
 end
