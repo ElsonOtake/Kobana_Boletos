@@ -15,7 +15,7 @@ class BoletoTest < ApplicationSystemTestCase
     assert_selector "a.button", text: "Criar boleto"
     assert_selector "table.table"
     assert_selector "tbody#boletos"
-    sleep 10
+    sleep 2
   end
 
   test 'criando, visualizando e cancelando um boleto' do
