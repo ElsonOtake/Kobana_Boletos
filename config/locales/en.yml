@@ -45,4 +45,6 @@ en:
   status: Status
   create_bank_billet: Create bank billet
   cancel: Cancel
+  back: Back
+  cancel_bank_billet: Cancel bank billet
 

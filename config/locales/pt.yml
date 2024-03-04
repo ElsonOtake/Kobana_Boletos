@@ -14,4 +14,6 @@ pt:
   status: Situação
   create_bank_billet: Criar boleto
   cancel: Cancelar
+  back: Voltar
+  cancel_bank_billet: Cancelar boleto
   
