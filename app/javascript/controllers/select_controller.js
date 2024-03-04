@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [ "state", "city" ];
-  static values = { url: String }
+  static values = { url: String, prompt: String }
 
   load_option = (values) => {
     values.forEach((value) => {
@@ -24,7 +24,7 @@ export default class extends Controller {
   add_prompt = () => {
     if (this.cityTarget.childElementCount == 0) {
       const prompt = document.createElement("option");
-      prompt.innerText = "Selecione o estado";
+      prompt.innerText = this.promptValue;
       this.cityTarget.appendChild(prompt);
     }
   }

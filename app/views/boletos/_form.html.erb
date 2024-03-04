@@ -1,4 +1,11 @@
-<%= form_with model: boleto, url: boletos_url, method: :post, data: {  controller: "select modal", action: "turbo:submit-end->modal#submitEnd", select_url_value: cities_url } do |form| %>
+<%= form_with model: boleto,
+              url: boletos_url,
+              method: :post,
+              data: {
+                controller: "select modal",
+                action: "turbo:submit-end->modal#submitEnd",
+                select_prompt_value: t(:select_the_state),
+                select_url_value: cities_url } do |form| %>
   <% if boleto.persisted? %>
     <% errors = {} %>
   <% else %>
