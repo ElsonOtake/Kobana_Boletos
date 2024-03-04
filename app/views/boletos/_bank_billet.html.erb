@@ -16,7 +16,7 @@
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td id=<%= "status_#{boleto.id}" %>>
     <% if ["opened", "generating"].include? boleto.status %>
-      <%= link_to "Cancelar",
+      <%= link_to t(:cancel),
                   edit_boleto_path(boleto.id),
                   class: "button is-danger is-small is-rounded is-light",
                   data: {

@@ -30,6 +30,19 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello_world: Hello world!
-  hello_flash: Hello flash!
+  successfully_canceled: Bank Billet successfully canceled
+  successfully_created: Bank Billet successfully created
+  id: Id
+  amount: Amount
+  expire_at: Expire at
+  customer_person_name: Person name
+  customer_cnpj_cpf: CNPJ/CPF
+  customer_state: State
+  customer_city_name: City
+  customer_zipcode: Zipcode
+  customer_address: Address
+  customer_neighborhood: Neighborhood
+  status: Status
+  create_bank_billet: Create bank billet
+  cancel: Cancel
 
