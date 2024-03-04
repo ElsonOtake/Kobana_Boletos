@@ -27,4 +27,6 @@ pt:
     other: "%{count} erros impedem"
   }
   error_message: "esse boleto de ser salvo:"
+  en: English
+  pt: Portuguese
   

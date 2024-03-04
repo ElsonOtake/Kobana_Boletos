@@ -58,3 +58,5 @@ en:
     other: "%{count} errors prohibited"
   }
   error_message: "this bank billet from being saved:"
+  en: Inglês
+  pt: Português
