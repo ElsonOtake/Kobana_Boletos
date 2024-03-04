@@ -47,4 +47,6 @@ en:
   cancel: Cancel
   back: Back
   cancel_bank_billet: Cancel bank billet
-
+  yes_i_do: Yes, I do
+  show_bank_billet: Show bank billet
+  are_you_sure: "Are you sure you want to cancel the bank billet from %{name} in the amount of %{amount}?"

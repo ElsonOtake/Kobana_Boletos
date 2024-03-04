@@ -16,4 +16,7 @@ pt:
   cancel: Cancelar
   back: Voltar
   cancel_bank_billet: Cancelar boleto
+  yes_i_do: Sim, cancelar
+  show_bank_billet: Mostrar boleto
+  are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
   
