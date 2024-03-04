@@ -19,4 +19,12 @@ pt:
   yes_i_do: Sim, cancelar
   show_bank_billet: Mostrar boleto
   are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
+  create: Criar
+  select_the_state: Selecione o estado
+  error: {
+    zero: 'nenhum erro impede',
+    one: 'um erro impede',
+    other: "%{count} erros impedem"
+  }
+  error_message: "esse boleto de ser salvo:"
   
