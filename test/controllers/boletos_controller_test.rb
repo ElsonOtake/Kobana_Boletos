@@ -18,7 +18,10 @@ class BoletosControllerTest < ActionDispatch::IntegrationTest
     assert @boleto.persisted?
   end
 
-  { default: nil, pt: :pt, en: :en }.each do |key, value|
+  locales = { default: nil }
+  I18n.available_locales.each { |locale| locales[locale] = locale }
+
+  locales.each do |key, value|
 
     # deve ir para raiz
     test "should go to the root path for #{key.to_s} locale" do
