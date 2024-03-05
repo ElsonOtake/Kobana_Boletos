@@ -69,6 +69,7 @@
 
 - **[ActiveModel::Model](https://api.rubyonrails.org/classes/ActiveModel/Model.html)**
 - **[ActiveModel::Attributes](https://api.rubyonrails.org/classes/ActiveModel/Attributes.html)**
+- **[I18n](https://guides.rubyonrails.org/i18n.html)**
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -279,6 +280,7 @@ This project is [MIT](./MIT.md) licensed.
 
 - **[ActiveModel::Model](https://api.rubyonrails.org/classes/ActiveModel/Model.html)**
 - **[ActiveModel::Attributes](https://api.rubyonrails.org/classes/ActiveModel/Attributes.html)**
+- **[I18n](https://guides.rubyonrails.org/i18n.html)**
 
 
 <p align="right">(<a href="#voltar-ao-topo">voltar ao topo</a>)</p>
