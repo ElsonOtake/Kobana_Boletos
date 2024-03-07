@@ -1,5 +1,5 @@
 class BoletosController < ApplicationController
-  before_action :set_boleto, only: %i[ edit show ]
+  before_action :set_boleto, only: %i[ edit show cancel ]
   
   def index
     @boletos = Boleto.new.all
@@ -11,6 +11,9 @@ class BoletosController < ApplicationController
   def new
     @boleto = Boleto.new
     @cities = []
+  end
+
+  def cancel
   end
 
   def edit
@@ -31,7 +34,7 @@ class BoletosController < ApplicationController
     end
   end
 
-  def update
+  def cancel_by_id
     boleto = Boleto.new.cancel(params[:id])
     respond_to do |format|
       if boleto.persisted?

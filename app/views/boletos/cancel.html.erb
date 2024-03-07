@@ -5,7 +5,7 @@
 
   <div class="is-flex is-justify-content-space-evenly is-flex-wrap-wrap">
     <%= link_to t(:yes_i_do),
-                boleto_path(@boleto.id),
+                cancel_by_id_boleto_path(@boleto.id),
                 class: "button is-danger is-rounded mt-4",
                 data: {
                   turbo_method: :patch,
