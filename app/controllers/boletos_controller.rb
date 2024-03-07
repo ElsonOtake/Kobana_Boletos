@@ -54,9 +54,11 @@ class BoletosController < ApplicationController
     @boleto.update(params[:id])
     respond_to do |format|
       if @boleto.persisted?
+        @id = params[:id]
         format.html { redirect_to root_path, notice: t(:successfully_updated) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_updated) }
       else
+        @id = nil
         format.html { render :edit, status: :unprocessable_entity }
       end
     end

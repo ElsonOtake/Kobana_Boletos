@@ -10,8 +10,8 @@
     %>
   </td>
   <td class="has-text-right is-hidden-touch"><%= boleto.customer_cnpj_cpf %></td>
-  <td class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
-  <td class="is-hidden-mobile"><%= boleto.expire_at %></td>
+  <td id=<%= "amount_#{boleto.id}" %> class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
+  <td id=<%= "expire_at_#{boleto.id}" %> class="is-hidden-mobile"><%= boleto.expire_at %></td>
   <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td id=<%= "status_#{boleto.id}" %>>

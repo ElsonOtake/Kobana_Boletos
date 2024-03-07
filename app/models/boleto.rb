@@ -46,6 +46,7 @@ class Boleto
 
   def update(id)
     self.id = id
+    self.expire_at = self.first_week_day(self.expire_at)
     url = URI("https://api-sandbox.kobana.com.br/v1/bank_billets/#{id}")
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
@@ -105,5 +106,9 @@ class Boleto
     erro = Boleto.new
     erro.response_errors = [Hash[:title, message]].to_json
     erro
+  end
+
+  def first_week_day(date)
+    date.on_weekday? ? date : (date + 2).beginning_of_week
   end
 end

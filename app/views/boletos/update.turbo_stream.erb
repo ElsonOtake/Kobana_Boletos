@@ -1,1 +1,9 @@
+<% unless @id.nil? %>
+  <%= turbo_stream.update "amount_#{@id}" do %>
+    <%= @boleto.amount %>
+  <% end %>
+  <%= turbo_stream.update "expire_at_#{@id}" do %>
+    <%= @boleto.expire_at %>
+  <% end %>
+<% end %>
 <%= turbo_stream.prepend :flash, partial: "layouts/flash" %>
