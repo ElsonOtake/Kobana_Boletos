@@ -32,6 +32,7 @@
 en:
   successfully_canceled: Bank Billet successfully canceled
   successfully_created: Bank Billet successfully created
+  successfully_updated: Bank Billet successfully updated
   id: Id
   amount: Amount
   expire_at: Expire at

@@ -1,4 +1,6 @@
 class Boleto
+  require 'uri'
+  require 'net/http'
   include ActiveModel::Model
   include ActiveModel::Attributes
 
@@ -40,6 +42,26 @@ class Boleto
     self.status = boleto.status unless defined?(boleto.status).nil?
     self.response_errors = boleto.response_errors.to_json
     self
+  end
+
+  def update(id)
+    self.id = id
+    url = URI("https://api-sandbox.kobana.com.br/v1/bank_billets/#{id}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Put.new(url)
+    request["accept"] = 'application/json'
+    request["content-type"] = 'application/json'
+    request["authorization"] = "Bearer #{ENV['BOLETOSIMPLES_API_TOKEN']}"
+    body = self.attributes.select { |key| ["amount", "expire_at"].include? key }
+    request.body = body.to_json
+    response = http.request(request)
+    if response.code == "204"
+      self.response_errors = "{}"
+    else
+      self.response_errors = JSON.parse(response.body)["errors"].to_json
+    end
   end
   
   def persisted?

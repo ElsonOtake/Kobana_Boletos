@@ -1,6 +1,7 @@
 pt:
   successfully_canceled: Boleto cancelado com sucesso
   successfully_created: Boleto criado com sucesso
+  successfully_updated: Boleto alterado com sucesso
   id: Id
   amount: Valor
   expire_at: Vencimento

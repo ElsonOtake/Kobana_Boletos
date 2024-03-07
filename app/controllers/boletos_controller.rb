@@ -1,5 +1,6 @@
 class BoletosController < ApplicationController
-  before_action :set_boleto, only: %i[ edit show cancel ]
+  before_action :find_boleto, only: %i[ edit show cancel ]
+  before_action :set_boleto, only: %i[ create update ]
   
   def index
     @boletos = Boleto.new.all
@@ -17,11 +18,9 @@ class BoletosController < ApplicationController
   end
 
   def edit
-    @cities = CS.cities(@boleto.customer_state, :BR)
   end
 
   def create
-    @boleto= Boleto.new(boleto_params)
     @boleto.create
     
     respond_to do |format|
@@ -51,9 +50,21 @@ class BoletosController < ApplicationController
     end
   end
 
+  def update
+    @boleto.update(params[:id])
+    respond_to do |format|
+      if @boleto.persisted?
+        format.html { redirect_to root_path, notice: t(:successfully_updated) }
+        format.turbo_stream { flash.now[:notice] = t(:successfully_updated) }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
-  def set_boleto
+  def find_boleto
     @boleto = Boleto.new.find(params[:id])
     unless @boleto.persisted?
       respond_to do |format|
@@ -62,6 +73,10 @@ class BoletosController < ApplicationController
         format.turbo_stream { flash.now[:notice] = message }
       end
     end
+  end
+
+  def set_boleto
+    @boleto= Boleto.new(boleto_params)
   end
 
   def boleto_params
