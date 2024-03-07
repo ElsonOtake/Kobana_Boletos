@@ -27,6 +27,7 @@ class Boleto
   end
 
   def create
+    self.expire_at = self.first_week_day(self.expire_at)
     boleto = BoletoSimples::BankBillet.create(
       amount: self.amount,
       expire_at: self.expire_at,
