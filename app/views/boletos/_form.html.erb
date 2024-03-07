@@ -1,6 +1,6 @@
 <%= form_with model: boleto,
-              url: boletos_url,
-              method: :post,
+              url: ,
+              method: ,
               data: {
                 controller: "select modal",
                 action: "turbo:submit-end->modal#submitEnd",
@@ -105,7 +105,7 @@
     </div>
   </div>
   <div class="is-flex is-justify-content-space-between">
-    <%= form.submit t(:create), class: "button is-primary is-rounded mt-4" %>
+    <%= form.submit method == :post ? t(:create) : t(:update), class: "button is-primary is-rounded mt-4" %>
     <%= link_to t(:back), boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>

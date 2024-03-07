@@ -16,10 +16,12 @@ pt:
   cancel: Cancelar
   back: Voltar
   cancel_bank_billet: Cancelar boleto
+  edit_bank_billet: Alterar boleto
   yes_i_do: Sim, cancelar
   show_bank_billet: Mostrar boleto
   are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
   create: Criar
+  update: Alterar
   select_the_state: Selecione o estado
   error: {
     zero: 'nenhum erro impede',

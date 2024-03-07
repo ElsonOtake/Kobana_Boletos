@@ -1,0 +1,3 @@
+<%= turbo_frame_tag :boleto_frame do %>
+  <%= render "form", boleto: @boleto, url: cancel_by_id_boleto_url, method: :patch %>
+<% end %>

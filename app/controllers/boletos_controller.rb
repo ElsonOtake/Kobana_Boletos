@@ -17,6 +17,7 @@ class BoletosController < ApplicationController
   end
 
   def edit
+    @cities = CS.cities(@boleto.customer_state, :BR)
   end
 
   def create
