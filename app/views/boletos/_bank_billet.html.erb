@@ -1,12 +1,12 @@
 <tr id="<%= dom_id boleto %>">
   <td>
     <%= link_to boleto.customer_person_name,
-    boleto_path(boleto.id),
-    data: {
-      controller: "modal",
-      action: "modal#open",
-      turbo_frame: "boleto_frame"
-    }
+      boleto_path(boleto),
+      data: {
+        controller: "modal",
+        action: "modal#open",
+        turbo_frame: "boleto_frame"
+      }
     %>
   </td>
   <td class="has-text-right is-hidden-touch"><%= boleto.customer_cnpj_cpf %></td>
@@ -17,7 +17,7 @@
   <td id=<%= "status_#{boleto.id}" %>>
     <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to t(:cancel),
-                  cancel_boleto_path(boleto.id),
+                  cancel_boleto_path(boleto),
                   class: "button is-danger is-small is-rounded is-light",
                   data: {
                     controller: "modal",
