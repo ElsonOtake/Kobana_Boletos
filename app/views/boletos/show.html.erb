@@ -13,14 +13,14 @@
     %>
     <% if @boleto.status == "opened" %>
       <%= link_to t(:edit_bank_billet),
-                  edit_boleto_path(@boleto),
+                  edit_boleto_path(@boleto.id),
                   class: "button is-primary is-rounded",
                   data: {
                     turbo_frame: "boleto_frame"
                   }
       %>
       <%= link_to t(:cancel_bank_billet),
-                  cancel_boleto_path(@boleto),
+                  cancel_boleto_path(@boleto.id),
                   class: "button is-danger is-rounded",
                   data: {
                     turbo_frame: "boleto_frame"

@@ -16,7 +16,7 @@ class BoletoTest < ActiveSupport::TestCase
     }
     @boleto = Boleto.new(params)
     @boleto.create
-    assert @boleto.persisted?
+    assert @boleto.errors?
   end
 
   # deve criar boleto com valores padrao
@@ -147,20 +147,20 @@ class BoletoTest < ActiveSupport::TestCase
     assert boleto.response_errors.is_a? String
   end
 
-  # deve retornar persisted? como verdadeiro se response_errors for um hash vazio
-  test 'should return persisted? as true if response_errors is an empty hash' do
+  # deve retornar errors? como verdadeiro se response_errors for um hash vazio
+  test 'should return errors? as true if response_errors is an empty hash' do
     boleto = Boleto.new
     assert_equal boleto.response_errors, "{}"
-    assert boleto.persisted?
+    assert boleto.errors?
   end
 
-  # deve retornar persisted? como falso se response_errors não for um hash vazio
-  test 'should return persisted? as false if response_errors is not an empty hash' do
+  # deve retornar errors? como falso se response_errors não for um hash vazio
+  test 'should return errors? as false if response_errors is not an empty hash' do
     message = {:customer_cnpj_cpf=>["não é um CNPJ ou CPF válido"]}.to_json
     boleto = Boleto.new
     boleto.response_errors = message
     assert_not_equal boleto.response_errors, "{}"
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
   end
 
   # deve criar novo boleto a partir de dados da instância
@@ -180,7 +180,7 @@ class BoletoTest < ActiveSupport::TestCase
     boleto.create
     assert boleto.id.is_a? Integer
     assert boleto.id > 0
-    assert boleto.persisted?
+    assert boleto.errors?
     assert_equal boleto.status, "generating"
   end
 
@@ -199,7 +199,7 @@ class BoletoTest < ActiveSupport::TestCase
     }
     boleto = Boleto.new(params)
     boleto.create
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
     assert_not_equal boleto.response_errors, "{}"
   end
 
@@ -218,7 +218,7 @@ class BoletoTest < ActiveSupport::TestCase
     }
     boleto = Boleto.new(params)
     boleto.create
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
   end
 
   # não deve criar novo boleto a partir de dados da instância se a data for no passado
@@ -236,7 +236,7 @@ class BoletoTest < ActiveSupport::TestCase
     }
     boleto = Boleto.new(params)
     boleto.create
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
   end
 
   # deve retornar lista de boletos
@@ -267,7 +267,7 @@ class BoletoTest < ActiveSupport::TestCase
   # não deve recuperar valores do boleto se o id for inválido
   test 'should not retrieve bank billet values if the id is invalid' do
     boleto = Boleto.new.find(0)
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
     assert_not_equal boleto.response_errors, "{}"
     message = JSON.parse(boleto.response_errors).first.with_indifferent_access
     assert message.has_key? "title"
@@ -276,15 +276,15 @@ class BoletoTest < ActiveSupport::TestCase
   # deve cancelar o boleto se o id for válido e não permitir cancelar boleto já cancelado
   test 'should cancel the bank billet if the ID is valid and should not allow cancel a bank billet that has already been canceled' do
     cancel = Boleto.new.cancel(@boleto.id)
-    assert cancel.persisted?
+    assert cancel.errors?
     repeated_cancel = Boleto.new.cancel(@boleto.id)
-    assert_not repeated_cancel.persisted?
+    assert_not repeated_cancel.errors?
   end
 
   # 'não deve cancelar o boleto se o id for inválido'
   test 'should not cancel the bank billet if the ID is invalid' do
     boleto = Boleto.new.cancel(0)
-    assert_not boleto.persisted?
+    assert_not boleto.errors?
     assert_not_equal boleto.response_errors, "{}"
     message = JSON.parse(boleto.response_errors).first.with_indifferent_access
     assert message.has_key? "title"

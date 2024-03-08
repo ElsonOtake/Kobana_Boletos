@@ -66,7 +66,7 @@ class Boleto
     end
   end
   
-  def persisted?
+  def errors?
     JSON.parse(self.response_errors).empty?
   end
 

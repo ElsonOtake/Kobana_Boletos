@@ -1,7 +1,7 @@
 <tr id="<%= dom_id boleto %>">
   <td>
     <%= link_to boleto.customer_person_name,
-      boleto_path(boleto),
+      boleto_path(boleto.id),
       data: {
         controller: "modal",
         action: "modal#open",
@@ -17,7 +17,7 @@
   <td id=<%= "status_#{boleto.id}" %>>
     <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to t(:cancel),
-                  cancel_boleto_path(boleto),
+                  cancel_boleto_path(boleto.id),
                   class: "button is-danger is-small is-rounded is-light",
                   data: {
                     controller: "modal",

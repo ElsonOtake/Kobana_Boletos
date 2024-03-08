@@ -15,7 +15,7 @@ class BoletosControllerTest < ActionDispatch::IntegrationTest
     }
     @boleto = Boleto.new(params)
     @boleto.create
-    assert @boleto.persisted?
+    assert @boleto.errors?
   end
 
   locales = { default: nil }

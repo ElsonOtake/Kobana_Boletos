@@ -22,7 +22,7 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       params[:customer_person_name] = "Museu do Amanhã #{locale.to_s}"
       instance_variable_set("@boleto_#{locale.to_s}", Boleto.new(params))
       instance_variable_get("@boleto_#{locale.to_s}").create
-      assert instance_variable_get("@boleto_#{locale.to_s}").persisted?
+      assert instance_variable_get("@boleto_#{locale.to_s}").errors?
     end
   end
 
