@@ -80,5 +80,24 @@ class BoletosControllerTest < ActionDispatch::IntegrationTest
       follow_redirect!
       assert_response :success
     end
+
+    # deve preencher dados a serem alterados no boleto
+    test "should fill in the bank billet fields to be updated for #{key.to_s} locale" do
+      get boleto_url(opened_id, locale: value )
+      assert_response :success
+    end
+
+    # deve alterar um boleto
+    test "should update a bank billet for #{key.to_s} locale" do
+      patch boleto_url(opened_id, locale: value), params: {
+        boleto: {
+          amount: 164.48,
+          expire_at: Date.today + 20
+        }
+      }
+      assert_response :redirect
+      follow_redirect!
+      assert_response :success
+    end
   end
 end
