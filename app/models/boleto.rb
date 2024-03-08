@@ -66,7 +66,7 @@ class Boleto
     end
   end
   
-  def errors?
+  def errors_empty?
     JSON.parse(self.response_errors).empty?
   end
 

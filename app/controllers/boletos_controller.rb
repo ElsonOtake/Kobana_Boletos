@@ -24,7 +24,7 @@ class BoletosController < ApplicationController
     @boleto.create
     
     respond_to do |format|
-      if @boleto.errors?
+      if @boleto.errors_empty?
         format.html { redirect_to root_path, notice: t(:successfully_created) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_created) }
       else
@@ -37,7 +37,7 @@ class BoletosController < ApplicationController
   def cancel_by_id
     boleto = Boleto.new.cancel(params[:id])
     respond_to do |format|
-      if boleto.errors?
+      if boleto.errors_empty?
         @id = params[:id]
         format.html { redirect_to root_path, notice: t(:successfully_canceled) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_canceled) }
@@ -53,7 +53,7 @@ class BoletosController < ApplicationController
   def update
     @boleto.update(params[:id])
     respond_to do |format|
-      if @boleto.errors?
+      if @boleto.errors_empty?
         @id = params[:id]
         format.html { redirect_to root_path, notice: t(:successfully_updated) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_updated) }
@@ -68,7 +68,7 @@ class BoletosController < ApplicationController
 
   def find_boleto
     @boleto = Boleto.new.find(params[:id])
-    unless @boleto.errors?
+    unless @boleto.errors_empty?
       respond_to do |format|
         message = JSON.parse(@boleto.response_errors).first.with_indifferent_access[:title]
         format.html { redirect_to root_path, notice: message }
