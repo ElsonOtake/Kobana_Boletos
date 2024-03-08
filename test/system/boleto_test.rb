@@ -41,8 +41,8 @@ class BoletoTest < ApplicationSystemTestCase
       sleep 2
     end
 
-    # criando, visualizando e cancelando um boleto
-    test "creating, showing, and canceling a bank billet at the #{key.to_s} locale" do
+    # criando, visualizando, alterando e cancelando um boleto
+    test "creating, showing, updating and canceling a bank billet at the #{key.to_s} locale" do
       visit root_path(locale: value)
 
       sleep 2
@@ -87,13 +87,44 @@ class BoletoTest < ApplicationSystemTestCase
       assert_selector 'p.title'
       assert_selector 'p.subtitle'
       assert_selector 'a.button', text: I18n.t(:back, locale: value)
+      assert_selector 'a.button', text: I18n.t(:edit_bank_billet, locale: value)
       assert_selector 'a.button', text: I18n.t(:cancel_bank_billet, locale: value)
+
+      sleep 2
+
+      click_on I18n.t(:edit_bank_billet, locale: value)
+
+      fill_in I18n.t(:amount, locale: value), with: 32.99
+      fill_in I18n.t(:expire_at, locale: value), with: (Date.today + 20).strftime("%m/%d/%Y")
+
+      click_on I18n.t(:update, locale: value)
+
+      assert_text I18n.t(:successfully_updated, locale: value)
+
+      assert_text I18n.t(:customer_person_name, locale: value)
+      assert_text I18n.t(:customer_cnpj_cpf, locale: value)
+      assert_text I18n.t(:amount, locale: value)
+      assert_text I18n.t(:expire_at, locale: value)
+      assert_text I18n.t(:customer_city_name, locale: value)
+      assert_text I18n.t(:customer_state, locale: value)
+      assert_text I18n.t(:status, locale: value)
+      assert_text "#{@name} #{key.to_s}"
+      assert_text '04.393.475/0004-99'
+      assert_text '32.99'
+      assert_text (Date.today + 20).on_weekday? ? (Date.today + 20).strftime("%Y-%m-%d") : (Date.today + 22).beginning_of_week.strftime("%Y-%m-%d")
+      assert_text 'Rio de Janeiro'
+      assert_text 'RJ'
+      assert_selector 'a.button', text: I18n.t(:cancel, locale: value)
+
+      sleep 2
+
+      click_on "#{@name} #{key.to_s}"
 
       sleep 2
 
       click_on I18n.t(:cancel_bank_billet, locale: value)
 
-      assert_text I18n.t(:are_you_sure, name: "#{@name} #{key.to_s}", amount: '24.50', locale: value)
+      assert_text I18n.t(:are_you_sure, name: "#{@name} #{key.to_s}", amount: '32.99', locale: value)
       assert_selector 'p.subtitle'
       assert_selector 'a.button', text: I18n.t(:yes_i_do, locale: value)
       assert_selector 'a.button', text: I18n.t(:show_bank_billet, locale: value)
