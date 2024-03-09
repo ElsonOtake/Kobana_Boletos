@@ -1,22 +1,6 @@
 require "test_helper"
 
 class BoletosControllerTest < ActionDispatch::IntegrationTest
-  # setup do
-  #   params = {
-  #     amount: 132.99,
-  #     expire_at: Date.today + 15,
-  #     customer_person_name: "Museu do Amanhã",
-  #     customer_cnpj_cpf: "04.393.475/0004-99",
-  #     customer_state: "RJ",
-  #     customer_city_name: "Rio de Janeiro",
-  #     customer_zipcode: "20081240",
-  #     customer_address: "Praça Mauá, 1",
-  #     customer_neighborhood: "Centro"
-  #   }
-  #   @boleto = Boleto.new(params)
-  #   @boleto.create
-  #   assert @boleto.errors_empty?
-  # end
 
   locales = { default: nil }
   I18n.available_locales.each { |locale| locales[locale] = locale }
