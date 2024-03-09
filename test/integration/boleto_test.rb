@@ -6,24 +6,26 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
   I18n.available_locales.each { |locale| Locales[locale] = locale }
 
   setup do
-    params = {
-      amount: 132.99,
-      expire_at: Date.today + 15,
-      customer_person_name: "Museu do Amanhã",
-      customer_cnpj_cpf: "04.393.475/0004-99",
-      customer_state: "RJ",
-      customer_city_name: "Rio de Janeiro",
-      customer_zipcode: "20081240",
-      customer_address: "Praça Mauá, 1",
-      customer_neighborhood: "Centro"
+    @params = {
+      boleto: {
+        amount: 132.99,
+        expire_at: Date.today + 15,
+        customer_person_name: "Museu do Amanhã",
+        customer_cnpj_cpf: "04.393.475/0004-99",
+        customer_state: "RJ",
+        customer_city_name: "Rio de Janeiro",
+        customer_zipcode: "20081240",
+        customer_address: "Praça Mauá, 1",
+        customer_neighborhood: "Centro"
+      }
     }
 
-    Locales.keys.each do |locale|
-      params[:customer_person_name] = "Museu do Amanhã #{locale.to_s}"
-      instance_variable_set("@boleto_#{locale.to_s}", Boleto.new(params))
-      instance_variable_get("@boleto_#{locale.to_s}").create
-      assert instance_variable_get("@boleto_#{locale.to_s}").errors_empty?
-    end
+    @update_params = {
+      boleto: {
+        amount: 30.5,
+        expire_at: Date.today + 20
+      }
+    }
   end
 
   Locales.each do |key, value|
@@ -40,20 +42,9 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       get "#{path(value.to_s)}/boletos/new"
       assert_response :success
 
-      post "#{path(value.to_s)}/boletos",
-        params: {
-          boleto: {
-            amount: 10.99,
-            expire_at: Date.today + 15,
-            customer_person_name: "Integration Test #{key.to_s}",
-            customer_cnpj_cpf: "16.974.923/0001-84",
-            customer_state: "SP",
-            customer_city_name: "São Paulo",
-            customer_zipcode: "01310100",
-            customer_address: "Rua F, Alameda G",
-            customer_neighborhood: "Centro"
-          }
-        }
+      @params[:boleto][:customer_person_name] = "Integration Test #{key.to_s}"
+
+      post "#{path(value.to_s)}/boletos", params: @params
 
       assert_response :redirect
       follow_redirect!
@@ -68,20 +59,9 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       get "#{path(value.to_s)}/boletos/new"
       assert_response :success
 
-      post "#{path(value.to_s)}/boletos",
-        params: {
-          boleto: {
-            amount: 10.99,
-            expire_at: "2024-12-12",
-            customer_person_name: "Integration Test #{key.to_s}",
-            customer_cnpj_cpf: "11.222.333/4567-89",
-            customer_state: "SP",
-            customer_city_name: "São Paulo",
-            customer_zipcode: "01310100",
-            customer_address: "Rua F, Alameda G",
-            customer_neighborhood: "Centro"
-          }
-        }
+      @params[:boleto][:customer_cnpj_cpf] = "11.222.333/4567-89"
+
+      post "#{path(value.to_s)}/boletos", params: @params
 
       assert_response 422 # Unprocessable Entity
 
@@ -94,20 +74,9 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       get "#{path(value.to_s)}/boletos/new"
       assert_response :success
 
-      post "#{path(value.to_s)}/boletos",
-        params: {
-          boleto: {
-            amount: 10.99,
-            expire_at: Date.today - 15,
-            customer_person_name: "Integration Test #{key.to_s}",
-            customer_cnpj_cpf: "16.974.923/0001-84",
-            customer_state: "SP",
-            customer_city_name: "São Paulo",
-            customer_zipcode: "01310100",
-            customer_address: "Rua F, Alameda G",
-            customer_neighborhood: "Centro"
-          }
-        }
+      @params[:boleto][:expire_at] = Date.today - 15
+
+      post "#{path(value.to_s)}/boletos", params: @params
 
       assert_response 422 # Unprocessable Entity
 
@@ -120,20 +89,9 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       get "#{path(value.to_s)}/boletos/new"
       assert_response :success
 
-      post "#{path(value.to_s)}/boletos",
-        params: {
-          boleto: {
-            amount: -10.99,
-            expire_at: Date.today + 15,
-            customer_person_name: "Integration Test #{key.to_s}",
-            customer_cnpj_cpf: "16.974.923/0001-84",
-            customer_state: "SP",
-            customer_city_name: "São Paulo",
-            customer_zipcode: "01310100",
-            customer_address: "Rua F, Alameda G",
-            customer_neighborhood: "Centro"
-          }
-        }
+      @params[:boleto][:amount] = -10.99
+
+      post "#{path(value.to_s)}/boletos", params: @params
 
       assert_response 422 # Unprocessable Entity
 
@@ -155,12 +113,13 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
   
     # consegue visualizar o boleto se o id for válido
     test "can show the bank billet using a valid id for #{key.to_s} locale" do
-      id = instance_variable_get("@boleto_#{key.to_s}").id
+      id = opened_id
       
       get "#{path(value.to_s)}/boletos/#{id}"
       assert_response :success
       
       assert_select "a", I18n.t(:cancel_bank_billet, locale: value)
+      assert_select "a", I18n.t(:edit_bank_billet, locale: value)
       assert_select "a", I18n.t(:back, locale: value)
     end
   
@@ -178,9 +137,9 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
   
     # consegue cancelar o boleto aberto se o id for válido
     test "can cancel the bank billet using a valid id for #{key.to_s} locale" do
-      id = instance_variable_get("@boleto_#{key.to_s}").id
+      id = opened_id
 
-      get "#{path(value.to_s)}/boletos/#{id}/edit"
+      get "#{path(value.to_s)}/boletos/#{id}/cancel"
       assert_response :success
 
       assert_select "a", I18n.t(:yes_i_do, locale: value)
@@ -188,7 +147,7 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       assert_select "a", I18n.t(:back, locale: value)
 
       # request cancellation
-      patch "#{path(value.to_s)}/boletos/#{id}"
+      patch "#{path(value.to_s)}/boletos/#{id}/cancel_by_id"
 
       assert_response :redirect
       follow_redirect!
@@ -197,9 +156,59 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       assert_equal I18n.t(:successfully_canceled, locale: value), flash[:notice]
 
       # try to cancel the bank billet again
-      patch "#{path(value.to_s)}/boletos/#{id}"
+      patch "#{path(value.to_s)}/boletos/#{id}/cancel_by_id"
 
       assert_response 422 # Unprocessable Entity
     end
+
+    # consegue alterar um boleto com dados válidos
+    test "can update a bank billet using valid data for #{key.to_s} locale" do
+      id = opened_id
+
+      get "#{path(value.to_s)}/boletos/#{id}/edit"
+      assert_response :success
+
+      patch "#{path(value.to_s)}/boletos/#{id}", params: @update_params
+
+      assert_response :redirect
+      follow_redirect!
+      assert_response :success
+
+      assert_equal I18n.t(:successfully_updated, locale: value), flash[:notice]
+    end
+
+    # não consegue alterar um boleto com data no passado
+    test "can not update a bank billet using past date for #{key.to_s} locale" do
+      id = opened_id  
+    
+      get "#{path(value.to_s)}/boletos/#{id}/edit"
+      assert_response :success
+
+      @update_params[:boleto][:expire_at] = Date.today - 15
+
+      patch "#{path(value.to_s)}/boletos/#{id}", params: @update_params
+
+      assert_response 422 # Unprocessable Entity
+
+      assert_select "h2", "#{I18n.t(:error, count: 1, locale: value)} #{I18n.t(:error_message, locale: value)}"
+      assert_select "li", "- #{I18n.t(:expire_at, locale: value)} não pode ser no passado"
+    end
+
+    # não consegue alterar um boleto com valor negativo
+    test "can not update a bank billet using negative value amount for #{key.to_s} locale" do
+      id = opened_id
+
+      get "#{path(value.to_s)}/boletos/#{id}/edit"
+      assert_response :success
+
+      @update_params[:boleto][:amount] = -10.99
+
+      patch "#{path(value.to_s)}/boletos/#{id}", params: @update_params
+
+      assert_response 422 # Unprocessable Entity
+
+      assert_select "h2", "#{I18n.t(:error, count: 1, locale: value)} #{I18n.t(:error_message, locale: value)}"
+      assert_select "li", "- #{I18n.t(:amount, locale: value)} deve ser maior ou igual a 1"
+    end  
   end
 end
