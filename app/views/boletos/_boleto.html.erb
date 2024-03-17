@@ -2,7 +2,7 @@
   <% (Boleto.attribute_names - Array("response_errors")).each do |attr| %>
     <div class="column is-narrow">
       <div class="box">
-        <p class="title is-5"><%= t(attr) %></p>
+        <p class="title is-5"><%= t("boletos.form.#{attr}") %></p>
         <p class="subtitle"><%= display(attr, boleto.send(attr)) %></p>
       </div>
     </div>

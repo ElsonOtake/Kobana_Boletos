@@ -4,19 +4,19 @@
               data: {
                 controller: "select modal",
                 action: "turbo:submit-end->modal#submitEnd",
-                select_prompt_value: t(:select_the_state),
+                select_prompt_value: t('.select_the_state'),
                 select_url_value: cities_url } do |form| %>
   <% if boleto.errors_empty? %>
     <% errors = {} %>
   <% else %>
     <% errors = JSON.parse(boleto.response_errors).with_indifferent_access %>
     <div class="p-4 mb-2 has-background-warning-light">
-      <h2 class="subtitle has-text-info"><%= t(:error, count: errors.count) %> <%= t(:error_message) %></h2>
+      <h2 class="subtitle has-text-info"><%= t('.error', count: errors.count) %> <%= t('.error_message') %></h2>
 
       <ul>
         <% errors.each do |key, value| %>
           <% value.each do |message| %>
-            <li class="has-text-danger pl-4"><%= "- #{t(key)} " %><%= message %></li>
+            <li class="has-text-danger pl-4">- <%= t(".#{key.to_s}") %> <%= message %></li>
           <% end %>
         <% end %>
       </ul>
@@ -27,13 +27,13 @@
 
     <% if method == :post %>
       <div class="column">
-        <%= form.label :customer_person_name, t(:customer_person_name), class: "label" %>
+        <%= form.label :customer_person_name, t('.customer_person_name'), class: "label" %>
         <div class="control" style="width: 200px;">
           <%= form.text_field :customer_person_name, class: errors.has_key?(:customer_person_name) ? "input is-danger" : "input is-info", required: true %>
         </div>
       </div>
       <div class="column">
-        <%= form.label :customer_cnpj_cpf, t(:customer_cnpj_cpf), class: "label" %>
+        <%= form.label :customer_cnpj_cpf, t('.customer_cnpj_cpf'), class: "label" %>
         <div class="control" style="width: 200px;">
           <%= form.text_field :customer_cnpj_cpf, class: errors.has_key?(:customer_cnpj_cpf) ? "input is-danger" : "input is-info", required: true %>
         </div>
@@ -41,13 +41,13 @@
     <% end %>
 
     <div class="column">
-      <%= form.label :amount, t(:amount), class: "label" %>
+      <%= form.label :amount, t('.amount'), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.number_field :amount, step: "0.01", class: errors.has_key?(:amount) ? "input is-danger" : "input is-info", required: true %>
       </div>
     </div>
     <div class="column">
-      <%= form.label :expire_at, t(:expire_at), class: "label" %>
+      <%= form.label :expire_at, t('.expire_at'), class: "label" %>
       <div class="control" style="width: 200px;">
         <%= form.date_field :expire_at, class: errors.has_key?(:expire_at) ? "input is-danger" : "input is-info", required: true %>
       </div>
@@ -55,19 +55,19 @@
 
     <% if method == :post %>
       <div class="column">
-        <%= form.label :customer_address, t(:customer_address), class: "label" %>
+        <%= form.label :customer_address, t('.customer_address'), class: "label" %>
         <div class="control" style="width: 200px;">
           <%= form.text_field :customer_address, class: errors.has_key?(:customer_address) ? "input is-danger" : "input is-info", required: true %>
         </div>
       </div>
       <div class="column">
-        <%= form.label :customer_zipcode, t(:customer_zipcode), class: "label" %>
+        <%= form.label :customer_zipcode, t('.customer_zipcode'), class: "label" %>
         <div class="control" style="width: 200px;">
           <%= form.text_field :customer_zipcode, class: errors.has_key?(:customer_zipcode) ? "input is-danger" : "input is-info", required: true %>
         </div>
       </div>
       <div class="column">
-        <%= form.label :customer_state, t(:customer_state), class: "label" %>
+        <%= form.label :customer_state, t('.customer_state'), class: "label" %>
         <div class="control select" style="width: 200px;">
           <%= form.select :customer_state,
                       CS.states(:BR).keys,
@@ -86,12 +86,12 @@
         </div>
       </div>
       <div class="column">
-        <%= form.label :customer_city_name, t(:customer_city_name), class: "label" %>
+        <%= form.label :customer_city_name, t('.customer_city_name'), class: "label" %>
         <div class="control select" style="width: 200px;">
           <%= form.select :customer_city_name,
                       @cities,
                       {
-                        prompt: t(:select_the_state)
+                        prompt: t('.select_the_state')
                       },
                       {
                         class: errors.has_key?(:customer_city_name) ? "input is-danger" : "input is-info",
@@ -104,7 +104,7 @@
         </div>
       </div>
       <div class="column">
-        <%= form.label :customer_neighborhood, t(:customer_neighborhood), class: "label" %>
+        <%= form.label :customer_neighborhood, t('.customer_neighborhood'), class: "label" %>
         <div class="control" style="width: 200px;">
           <%= form.text_field :customer_neighborhood, class: errors.has_key?(:customer_neighborhood) ? "input is-danger" : "input is-info", required: true %>
         </div>
@@ -113,7 +113,7 @@
     
   </div>
   <div class="is-flex is-justify-content-space-between">
-    <%= form.submit method == :post ? t(:create) : t(:update), class: "button is-primary is-rounded mt-4" %>
-    <%= link_to t(:back), boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
+    <%= form.submit method == :post ? t('.create') : t('.update'), class: "button is-primary is-rounded mt-4" %>
+    <%= link_to t('.back'), boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>

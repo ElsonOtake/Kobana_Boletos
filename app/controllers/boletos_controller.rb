@@ -25,8 +25,8 @@ class BoletosController < ApplicationController
     
     respond_to do |format|
       if @boleto.errors_empty?
-        format.html { redirect_to root_path, notice: t(:successfully_created) }
-        format.turbo_stream { flash.now[:notice] = t(:successfully_created) }
+        format.html { redirect_to root_path, notice: t('.successfully_created') }
+        format.turbo_stream { flash.now[:notice] = t('.successfully_created') }
       else
         @cities = CS.cities(boleto_params[:customer_state], :BR)
         format.html { render :new, status: :unprocessable_entity }
@@ -39,8 +39,8 @@ class BoletosController < ApplicationController
     respond_to do |format|
       if boleto.errors_empty?
         @id = params[:id]
-        format.html { redirect_to root_path, notice: t(:successfully_canceled) }
-        format.turbo_stream { flash.now[:notice] = t(:successfully_canceled) }
+        format.html { redirect_to root_path, notice: t('.successfully_canceled') }
+        format.turbo_stream { flash.now[:notice] = t('.successfully_canceled') }
       else
         @id = nil
         message = JSON.parse(boleto.response_errors).first.with_indifferent_access[:title]
@@ -55,8 +55,8 @@ class BoletosController < ApplicationController
     respond_to do |format|
       if @boleto.errors_empty?
         @id = params[:id]
-        format.html { redirect_to root_path, notice: t(:successfully_updated) }
-        format.turbo_stream { flash.now[:notice] = t(:successfully_updated) }
+        format.html { redirect_to root_path, notice: t('.successfully_updated') }
+        format.turbo_stream { flash.now[:notice] = t('.successfully_updated') }
       else
         @id = nil
         format.html { render :edit, status: :unprocessable_entity }

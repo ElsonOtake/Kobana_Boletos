@@ -1,35 +1,44 @@
 pt:
-  amount: Valor
-  are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
-  back: Voltar
-  cancel_bank_billet: Cancelar boleto
-  cancel: Cancelar
-  create_bank_billet: Criar boleto
-  create: Criar
-  customer_address: Endereço
-  customer_city_name: Cidade
-  customer_cnpj_cpf: CNPJ/CPF
-  customer_neighborhood: Bairro
-  customer_person_name: Nome
-  customer_state: Estado
-  customer_zipcode: CEP
-  edit_bank_billet: Alterar boleto
   en: English
-  error_message: "esse boleto de ser salvo:"
-  error: {
-    zero: 'nenhum erro impede',
-    one: 'um erro impede',
-    other: "%{count} erros impedem"
-  }
-  expire_at: Vencimento
-  id: Id
   pt: Portuguese
-  select_the_state: Selecione o estado
-  show_bank_billet: Mostrar boleto
-  status: Situação
-  successfully_canceled: Boleto cancelado com sucesso
-  successfully_created: Boleto criado com sucesso
-  successfully_updated: Boleto alterado com sucesso
-  update: Alterar
-  yes_i_do: Sim, cancelar
+  boletos:
+    create:
+      successfully_created: Boleto criado com sucesso
+    cancel_by_id:
+      successfully_canceled: Boleto cancelado com sucesso
+    update:
+      successfully_updated: Boleto alterado com sucesso
+    form:
+      id: Id
+      select_the_state: Selecione o estado
+      error_message: "esse boleto de ser salvo:"
+      error: {
+        zero: 'nenhum erro impede',
+        one: 'um erro impede',
+        other: "%{count} erros impedem"
+      }
+      customer_person_name: Nome
+      customer_cnpj_cpf: CNPJ/CPF
+      amount: Valor
+      expire_at: Vencimento
+      customer_address: Endereço
+      customer_zipcode: CEP
+      customer_state: Estado
+      customer_city_name: Cidade
+      customer_neighborhood: Bairro
+      status: Situação
+      create: Criar
+      update: Alterar
+      back: Voltar
+    index:
+      create_bank_billet: Criar boleto
+    show:
+      edit_bank_billet: Alterar boleto
+      cancel_bank_billet: Cancelar boleto
+    cancel:
+      are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
+      yes_i_do: Sim, cancelar
+      show_bank_billet: Mostrar boleto
+    bank_billet:
+      cancel: Cancelar
   
