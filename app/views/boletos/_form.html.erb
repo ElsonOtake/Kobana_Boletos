@@ -1,6 +1,4 @@
 <%= form_with model: boleto,
-              url: ,
-              method: ,
               data: {
                 controller: "select modal",
                 action: "turbo:submit-end->modal#submitEnd",
@@ -25,7 +23,7 @@
 
   <div class="columns is-multiline is-centered">
 
-    <% if method == :post %>
+    <% unless boleto.persisted? %>
       <div class="column">
         <%= form.label :customer_person_name, t('.customer_person_name'), class: "label" %>
         <div class="control" style="width: 200px;">
@@ -53,7 +51,7 @@
       </div>
     </div>
 
-    <% if method == :post %>
+    <% unless boleto.persisted? %>
       <div class="column">
         <%= form.label :customer_address, t('.customer_address'), class: "label" %>
         <div class="control" style="width: 200px;">
@@ -113,7 +111,7 @@
     
   </div>
   <div class="is-flex is-justify-content-space-between">
-    <%= form.submit method == :post ? t('.create') : t('.update'), class: "button is-primary is-rounded mt-4" %>
+    <%= form.submit boleto.persisted? ? t('.update') : t('.create'), class: "button is-primary is-rounded mt-4" %>
     <%= link_to t('.back'), boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>

@@ -70,6 +70,10 @@ class Boleto
     JSON.parse(self.response_errors).empty?
   end
 
+  def persisted?
+    !self.id.nil?
+  end
+
   def find(id)
     begin
       boleto = BoletoSimples::BankBillet.find(id)
