@@ -30,4 +30,33 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  successfully_canceled: Bank Billet successfully canceled
+  successfully_created: Bank Billet successfully created
+  id: Id
+  amount: Amount
+  expire_at: Expire at
+  customer_person_name: Person name
+  customer_cnpj_cpf: CNPJ/CPF
+  customer_state: State
+  customer_city_name: City
+  customer_zipcode: Zipcode
+  customer_address: Address
+  customer_neighborhood: Neighborhood
+  status: Status
+  create_bank_billet: Create bank billet
+  cancel: Cancel
+  back: Back
+  cancel_bank_billet: Cancel bank billet
+  yes_i_do: Yes, I do
+  show_bank_billet: Show bank billet
+  are_you_sure: "Are you sure you want to cancel the bank billet from %{name} in the amount of %{amount}?"
+  create: Create
+  select_the_state: Select the state
+  error: {
+    zero: 'no errors prohibited',
+    one: 'one error prohibited',
+    other: "%{count} errors prohibited"
+  }
+  error_message: "this bank billet from being saved:"
+  en: Inglês
+  pt: Português

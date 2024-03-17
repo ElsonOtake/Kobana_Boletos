@@ -2,131 +2,10 @@ require 'test_helper'
 
 class BoletoIntegrationTest < ActionDispatch::IntegrationTest
 
-  test 'consegue abrir a página raiz' do
-    get "/"
-    assert_select "a", "Criar boleto"
-  end
+  Locales = { default: nil }
+  I18n.available_locales.each { |locale| Locales[locale] = locale }
 
-  test 'consegue criar um novo boleto com dados válidos' do
-    get "/boletos/new"
-    assert_response :success
-
-    post "/boletos", params: {
-                       boleto: {
-                         amount: 10.99,
-                         expire_at: Date.today + 15,
-                         customer_person_name: "Integration Test",
-                         customer_cnpj_cpf: "16.974.923/0001-84",
-                         customer_state: "SP",
-                         customer_city_name: "São Paulo",
-                         customer_zipcode: "01310100",
-                         customer_address: "Rua F, Alameda G",
-                         customer_neighborhood: "Centro"
-                       }
-                     }
-
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-
-    assert_equal "Boleto criado com sucesso", flash[:notice]
-  end
-
-  test 'não consegue criar um novo boleto com CNPJ inválido' do
-    get "/boletos/new"
-    assert_response :success
-
-    post "/boletos", params: {
-                       boleto: {
-                         amount: 10.99,
-                         expire_at: "2024-12-12",
-                         customer_person_name: "Integration Test",
-                         customer_cnpj_cpf: "11.222.333/4567-89",
-                         customer_state: "SP",
-                         customer_city_name: "São Paulo",
-                         customer_zipcode: "01310100",
-                         customer_address: "Rua F, Alameda G",
-                         customer_neighborhood: "Centro"
-                       }
-                     }
-
-    assert_response 422 # Unprocessable Entity
-
-    assert_select "h2", "1 erro impede esse boleto de ser salvo:"
-    assert_select "li", "- CNPJ/CPF não é um CNPJ ou CPF válido"
-  end
-
-  test 'não consegue criar um novo boleto com data no passado' do
-    get "/boletos/new"
-    assert_response :success
-
-    post "/boletos", params: {
-                       boleto: {
-                         amount: 10.99,
-                         expire_at: Date.today - 15,
-                         customer_person_name: "Integration Test",
-                         customer_cnpj_cpf: "16.974.923/0001-84",
-                         customer_state: "SP",
-                         customer_city_name: "São Paulo",
-                         customer_zipcode: "01310100",
-                         customer_address: "Rua F, Alameda G",
-                         customer_neighborhood: "Centro"
-                       }
-                     }
-
-    assert_response 422 # Unprocessable Entity
-
-    assert_select "h2", "1 erro impede esse boleto de ser salvo:"
-    assert_select "li", "- Vencimento não pode ser no passado"
-  end
-
-  test 'não consegue criar um novo boleto com valor negativo' do
-    get "/boletos/new"
-    assert_response :success
-
-    post "/boletos", params: {
-                       boleto: {
-                         amount: -10.99,
-                         expire_at: Date.today + 15,
-                         customer_person_name: "Integration Test",
-                         customer_cnpj_cpf: "16.974.923/0001-84",
-                         customer_state: "SP",
-                         customer_city_name: "São Paulo",
-                         customer_zipcode: "01310100",
-                         customer_address: "Rua F, Alameda G",
-                         customer_neighborhood: "Centro"
-                       }
-                     }
-
-    assert_response 422 # Unprocessable Entity
-
-    assert_select "h2", "1 erro impede esse boleto de ser salvo:"
-    assert_select "li", "- Valor deve ser maior ou igual a 1"
-  end
-
-  test 'não consegue visualizar o boleto se o id for inválido' do
-    get "/boletos/0"
-    assert_response :redirect
-    
-    follow_redirect!
-    assert_response :success
-
-    assert_select "div", "404 GET https://api-sandbox.kobana.com.br/v1/bank_billets/0 (Não foi possível encontrar o registro)"
-  end
-
-  test 'não consegue cancelar boleto se o id for inválido' do
-    get "/boletos/0/edit"
-    assert_response :redirect
-    
-    follow_redirect!
-    assert_response :success
-
-    assert_select "div", "404 GET https://api-sandbox.kobana.com.br/v1/bank_billets/0 (Não foi possível encontrar o registro)"
-  end
-
-  test 'consegue visualizar e cancelar o boleto abertos se o id for válido' do
-
-    # Criar boleto
+  setup do
     params = {
       amount: 132.99,
       expire_at: Date.today + 15,
@@ -138,44 +17,189 @@ class BoletoIntegrationTest < ActionDispatch::IntegrationTest
       customer_address: "Praça Mauá, 1",
       customer_neighborhood: "Centro"
     }
-    @boleto = Boleto.new(params)
-    @boleto.create
-    assert @boleto.persisted?
-    id = @boleto.id
 
-    # Visualizar boleto
-    get "/boletos/#{id}"
-    assert_response :success
+    Locales.keys.each do |locale|
+      params[:customer_person_name] = "Museu do Amanhã #{locale.to_s}"
+      instance_variable_set("@boleto_#{locale.to_s}", Boleto.new(params))
+      instance_variable_get("@boleto_#{locale.to_s}").create
+      assert instance_variable_get("@boleto_#{locale.to_s}").persisted?
+    end
+  end
 
-    assert_select "a", "Cancelar boleto"
-    assert_select "a", "Voltar"
+  Locales.each do |key, value|
 
-    # Cancelar boleto
-    get "/boletos/#{id}/edit"
-    assert_response :success
+    # consegue abrir a página raiz com link para idiomas
+    test "can see the index page with a link to language when the locale is #{key.to_s}" do
+      get "#{path(value.to_s)}/boletos"
+      assert_select "a", "English" if key.to_sym == :pt
+      assert_select "a", "Português" unless key.to_sym == :pt
+    end
 
-    assert_select "a", "Sim, cancelar"
-    assert_select "a", "Mostrar boleto"
-    assert_select "a", "Voltar"
+    # consegue criar um novo boleto com dados válidos
+    test "can create a new bank billet using valid data for #{key.to_s} locale" do
+      get "#{path(value.to_s)}/boletos/new"
+      assert_response :success
 
-    # Confirmar cancelamento
-    patch "/boletos/#{id}"
+      post "#{path(value.to_s)}/boletos",
+        params: {
+          boleto: {
+            amount: 10.99,
+            expire_at: Date.today + 15,
+            customer_person_name: "Integration Test #{key.to_s}",
+            customer_cnpj_cpf: "16.974.923/0001-84",
+            customer_state: "SP",
+            customer_city_name: "São Paulo",
+            customer_zipcode: "01310100",
+            customer_address: "Rua F, Alameda G",
+            customer_neighborhood: "Centro"
+          }
+        }
 
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
+      assert_response :redirect
+      follow_redirect!
+      assert_response :success
 
-    assert_equal "Boleto cancelado com sucesso", flash[:notice]
+      assert_equal I18n.t(:successfully_created, locale: value), flash[:notice]
+    end
 
-    # Visualizar o boleto novamente
-    get "/boletos/#{id}"
-    assert_response :success
 
-    assert_select "a", "Voltar"
+    # não consegue criar um novo boleto com CNPJ inválido
+    test "can not create a new bank billet using an invalid CNPJ for #{key.to_s} locale" do
+      get "#{path(value.to_s)}/boletos/new"
+      assert_response :success
 
-    # Confirmar cancelamento de boleto já cancelado
-    patch "/boletos/#{id}"
+      post "#{path(value.to_s)}/boletos",
+        params: {
+          boleto: {
+            amount: 10.99,
+            expire_at: "2024-12-12",
+            customer_person_name: "Integration Test #{key.to_s}",
+            customer_cnpj_cpf: "11.222.333/4567-89",
+            customer_state: "SP",
+            customer_city_name: "São Paulo",
+            customer_zipcode: "01310100",
+            customer_address: "Rua F, Alameda G",
+            customer_neighborhood: "Centro"
+          }
+        }
 
-    assert_response 422 # Unprocessable Entity
+      assert_response 422 # Unprocessable Entity
+
+      assert_select "h2", "#{I18n.t(:error, count: 1, locale: value)} #{I18n.t(:error_message, locale: value)}"
+      assert_select "li", "- #{I18n.t(:customer_cnpj_cpf, locale: value)} não é um CNPJ ou CPF válido"
+    end
+
+    # não consegue criar um novo boleto com data no passado
+    test "can not create a new bank billet using past date for #{key.to_s} locale" do
+      get "#{path(value.to_s)}/boletos/new"
+      assert_response :success
+
+      post "#{path(value.to_s)}/boletos",
+        params: {
+          boleto: {
+            amount: 10.99,
+            expire_at: Date.today - 15,
+            customer_person_name: "Integration Test #{key.to_s}",
+            customer_cnpj_cpf: "16.974.923/0001-84",
+            customer_state: "SP",
+            customer_city_name: "São Paulo",
+            customer_zipcode: "01310100",
+            customer_address: "Rua F, Alameda G",
+            customer_neighborhood: "Centro"
+          }
+        }
+
+      assert_response 422 # Unprocessable Entity
+
+      assert_select "h2", "#{I18n.t(:error, count: 1, locale: value)} #{I18n.t(:error_message, locale: value)}"
+      assert_select "li", "- #{I18n.t(:expire_at, locale: value)} não pode ser no passado"
+    end
+
+    # não consegue criar um novo boleto com valor negativo
+    test "can not create a new bank billet using negative value amount for #{key.to_s} locale" do
+      get "#{path(value.to_s)}/boletos/new"
+      assert_response :success
+
+      post "#{path(value.to_s)}/boletos",
+        params: {
+          boleto: {
+            amount: -10.99,
+            expire_at: Date.today + 15,
+            customer_person_name: "Integration Test #{key.to_s}",
+            customer_cnpj_cpf: "16.974.923/0001-84",
+            customer_state: "SP",
+            customer_city_name: "São Paulo",
+            customer_zipcode: "01310100",
+            customer_address: "Rua F, Alameda G",
+            customer_neighborhood: "Centro"
+          }
+        }
+
+      assert_response 422 # Unprocessable Entity
+
+      assert_select "h2", "#{I18n.t(:error, count: 1, locale: value)} #{I18n.t(:error_message, locale: value)}"
+      assert_select "li", "- #{I18n.t(:amount, locale: value)} deve ser maior ou igual a 1"
+    end
+
+    # não consegue visualizar o boleto se o id for inválido
+    test "can not show the bank billet using an invalid id for #{key.to_s} locale" do
+      
+      get "#{path(value.to_s)}/boletos/0"
+      assert_response :redirect
+      
+      follow_redirect!
+      assert_response :success
+
+      assert_select "div", "404 GET https://api-sandbox.kobana.com.br/v1/bank_billets/0 (Não foi possível encontrar o registro)"
+    end
+  
+    # consegue visualizar o boleto se o id for válido
+    test "can show the bank billet using a valid id for #{key.to_s} locale" do
+      id = instance_variable_get("@boleto_#{key.to_s}").id
+      
+      get "#{path(value.to_s)}/boletos/#{id}"
+      assert_response :success
+      
+      assert_select "a", I18n.t(:cancel_bank_billet, locale: value)
+      assert_select "a", I18n.t(:back, locale: value)
+    end
+  
+    # não consegue cancelar boleto se o id for inválido
+    test "can not cancel a bank billet using an invalid id for #{key.to_s} locale" do
+
+      get "#{path(value.to_s)}/boletos/0/edit"
+      assert_response :redirect
+      
+      follow_redirect!
+      assert_response :success
+
+      assert_select "div", "404 GET https://api-sandbox.kobana.com.br/v1/bank_billets/0 (Não foi possível encontrar o registro)"
+    end
+  
+    # consegue cancelar o boleto aberto se o id for válido
+    test "can cancel the bank billet using a valid id for #{key.to_s} locale" do
+      id = instance_variable_get("@boleto_#{key.to_s}").id
+
+      get "#{path(value.to_s)}/boletos/#{id}/edit"
+      assert_response :success
+
+      assert_select "a", I18n.t(:yes_i_do, locale: value)
+      assert_select "a", I18n.t(:show_bank_billet, locale: value)
+      assert_select "a", I18n.t(:back, locale: value)
+
+      # request cancellation
+      patch "#{path(value.to_s)}/boletos/#{id}"
+
+      assert_response :redirect
+      follow_redirect!
+      assert_response :success
+
+      assert_equal I18n.t(:successfully_canceled, locale: value), flash[:notice]
+
+      # try to cancel the bank billet again
+      patch "#{path(value.to_s)}/boletos/#{id}"
+
+      assert_response 422 # Unprocessable Entity
+    end
   end
 end

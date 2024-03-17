@@ -1,0 +1,32 @@
+pt:
+  successfully_canceled: Boleto cancelado com sucesso
+  successfully_created: Boleto criado com sucesso
+  id: Id
+  amount: Valor
+  expire_at: Vencimento
+  customer_person_name: Nome
+  customer_cnpj_cpf: CNPJ/CPF
+  customer_state: Estado
+  customer_city_name: Cidade
+  customer_zipcode: CEP
+  customer_address: Endereço
+  customer_neighborhood: Bairro
+  status: Situação
+  create_bank_billet: Criar boleto
+  cancel: Cancelar
+  back: Voltar
+  cancel_bank_billet: Cancelar boleto
+  yes_i_do: Sim, cancelar
+  show_bank_billet: Mostrar boleto
+  are_you_sure: "Você tem certeza que quer cancelar o boleto de %{name} no valor de %{amount}?"
+  create: Criar
+  select_the_state: Selecione o estado
+  error: {
+    zero: 'nenhum erro impede',
+    one: 'um erro impede',
+    other: "%{count} erros impedem"
+  }
+  error_message: "esse boleto de ser salvo:"
+  en: English
+  pt: Portuguese
+  

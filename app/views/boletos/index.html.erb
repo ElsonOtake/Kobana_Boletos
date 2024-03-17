@@ -2,7 +2,13 @@
   <%= render "layouts/flash" %>
 </div>
 <div class="is-flex is-justify-content-end">
-  <%= link_to "Criar boleto",
+  <% (I18n.available_locales - [I18n.locale]).each do |locale| %>
+    <span class="mr-2"><%= link_to t(locale), boletos_path(locale: locale) %></span>
+  <% end %>
+</div>
+<br>  
+<div class="is-flex is-justify-content-end">
+  <%= link_to t(:create_bank_billet),
               new_boleto_path,
               class: "button is-primary is-rounded mb-4",
               data: {

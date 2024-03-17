@@ -1,10 +1,17 @@
-<%= form_with model: boleto, url: boletos_url, method: :post, data: {  controller: "select modal", action: "turbo:submit-end->modal#submitEnd", select_url_value: cities_url } do |form| %>
+<%= form_with model: boleto,
+              url: boletos_url,
+              method: :post,
+              data: {
+                controller: "select modal",
+                action: "turbo:submit-end->modal#submitEnd",
+                select_prompt_value: t(:select_the_state),
+                select_url_value: cities_url } do |form| %>
   <% if boleto.persisted? %>
     <% errors = {} %>
   <% else %>
     <% errors = JSON.parse(boleto.response_errors).with_indifferent_access %>
     <div class="p-4 mb-2 has-background-warning-light">
-      <h2 class="subtitle has-text-info"><%= pluralize(errors.count, "erro") %> <%= errors.count == 1 ? "impede" : "impedem" %> esse boleto de ser salvo:</h2>
+      <h2 class="subtitle has-text-info"><%= t(:error, count: errors.count) %> <%= t(:error_message) %></h2>
 
       <ul>
         <% errors.each do |key, value| %>
@@ -78,7 +85,7 @@
         <%= form.select :customer_city_name,
                     @cities,
                     {
-                      prompt: "Selecione o estado"
+                      prompt: t(:select_the_state)
                     },
                     {
                       class: errors.has_key?(:customer_city_name) ? "input is-danger" : "input is-info",
@@ -98,7 +105,7 @@
     </div>
   </div>
   <div class="is-flex is-justify-content-space-between">
-    <%= form.submit "Criar", class: "button is-primary is-rounded mt-4" %>
-    <%= link_to "Voltar", boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
+    <%= form.submit t(:create), class: "button is-primary is-rounded mt-4" %>
+    <%= link_to t(:back), boletos_path, data: { controller: "modal", action: "modal#close"}, class: "button is-primary is-rounded mt-4" %>
   </div>
 <% end %>

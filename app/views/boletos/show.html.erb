@@ -3,7 +3,7 @@
   <%= render "boletos/boleto", boleto: @boleto %>
 
   <div class="is-flex is-justify-content-space-evenly mt-4">
-    <%= link_to "Voltar",
+    <%= link_to t(:back),
                 boletos_path,
                 class: "button is-primary is-rounded",
                 data: {
@@ -12,7 +12,7 @@
                 }
     %>
     <% if @boleto.status == "opened" %>
-      <%= link_to "Cancelar boleto",
+      <%= link_to t(:cancel_bank_billet),
                   edit_boleto_path(@boleto.id),
                   class: "button is-danger is-rounded",
                   data: {
