@@ -1,34 +1,43 @@
 en:
-  amount: Amount
-  are_you_sure: "Are you sure you want to cancel the bank billet from %{name} in the amount of %{amount}?"
-  back: Back
-  cancel_bank_billet: Cancel bank billet
-  cancel: Cancel
-  create_bank_billet: Create bank billet
-  create: Create
-  customer_address: Address
-  customer_city_name: City
-  customer_cnpj_cpf: CNPJ/CPF
-  customer_neighborhood: Neighborhood
-  customer_person_name: Person name
-  customer_state: State
-  customer_zipcode: Zipcode
-  edit_bank_billet: Edit bank billet
   en: Inglês
-  error_message: "this bank billet from being saved:"
-  error: {
-    zero: 'no errors prohibited',
-    one: 'one error prohibited',
-    other: "%{count} errors prohibited"
-  }
-  expire_at: Expire at
-  id: Id
   pt: Português
-  select_the_state: Select the state
-  show_bank_billet: Show bank billet
-  status: Status
-  successfully_canceled: Bank Billet successfully canceled
-  successfully_created: Bank Billet successfully created
-  successfully_updated: Bank Billet successfully updated
-  update: Update
-  yes_i_do: Yes, I do
+  boletos:
+    create:
+      successfully_created: Bank Billet successfully created
+    cancel_by_id:
+      successfully_canceled: Bank Billet successfully canceled
+    update:
+      successfully_updated: Bank Billet successfully updated
+    form:
+      id: Id
+      select_the_state: Select the state
+      error_message: "this bank billet from being saved:"
+      error: {
+        zero: 'no errors prohibited',
+        one: 'one error prohibited',
+        other: "%{count} errors prohibited"
+      }
+      customer_person_name: Person name
+      customer_cnpj_cpf: CNPJ/CPF
+      amount: Amount
+      expire_at: Expire at
+      customer_address: Address
+      customer_zipcode: Zipcode
+      customer_state: State
+      customer_city_name: City
+      customer_neighborhood: Neighborhood
+      status: Status
+      create: Create
+      update: Update
+      back: Back
+    index:
+      create_bank_billet: Create bank billet
+    show:
+      edit_bank_billet: Edit bank billet
+      cancel_bank_billet: Cancel bank billet
+    cancel:
+      are_you_sure: "Are you sure you want to cancel the bank billet from %{name} in the amount of %{amount}?"
+      yes_i_do: Yes, I do
+      show_bank_billet: Show bank billet
+    bank_billet:
+      cancel: Cancel

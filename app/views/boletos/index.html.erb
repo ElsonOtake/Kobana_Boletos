@@ -8,7 +8,7 @@
 </div>
 <br>  
 <div class="is-flex is-justify-content-end">
-  <%= link_to t(:create_bank_billet),
+  <%= link_to t('.create_bank_billet'),
               new_boleto_path,
               class: "button is-primary is-rounded mb-4",
               data: {
@@ -22,13 +22,13 @@
 <table class="table is-striped is-fullwidth">
   <thead>
     <tr>
-      <th><%= t(:customer_person_name) %></th>
-      <th class="is-hidden-touch"><%= t(:customer_cnpj_cpf) %></th>
-      <th><%= t(:amount) %></th>
-      <th class="is-hidden-mobile"><%= t(:expire_at) %></th>
-      <th class="is-hidden-touch"><%= t(:customer_city_name) %></th>
-      <th class="is-hidden-touch"><%= t(:customer_state) %></th>
-      <th><%= t(:status) %></th>
+      <th><%= t('boletos.form.customer_person_name') %></th>
+      <th class="is-hidden-touch"><%= t('boletos.form.customer_cnpj_cpf') %></th>
+      <th><%= t('boletos.form.amount') %></th>
+      <th class="is-hidden-mobile"><%= t('boletos.form.expire_at') %></th>
+      <th class="is-hidden-touch"><%= t('boletos.form.customer_city_name') %></th>
+      <th class="is-hidden-touch"><%= t('boletos.form.customer_state') %></th>
+      <th><%= t('boletos.form.status') %></th>
     </tr>
   </thead>
   <tbody id="boletos">
