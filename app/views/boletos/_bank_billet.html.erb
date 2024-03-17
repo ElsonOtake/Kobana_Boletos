@@ -1,23 +1,23 @@
 <tr id="<%= dom_id boleto %>">
   <td>
     <%= link_to boleto.customer_person_name,
-    boleto_path(boleto.id),
-    data: {
-      controller: "modal",
-      action: "modal#open",
-      turbo_frame: "boleto_frame"
-    }
+      boleto_path(boleto.id),
+      data: {
+        controller: "modal",
+        action: "modal#open",
+        turbo_frame: "boleto_frame"
+      }
     %>
   </td>
   <td class="has-text-right is-hidden-touch"><%= boleto.customer_cnpj_cpf %></td>
-  <td class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
-  <td class="is-hidden-mobile"><%= boleto.expire_at %></td>
+  <td id=<%= "amount_#{boleto.id}" %> class="has-text-right"><%= number_to_currency(boleto.amount, unit: "") %></td>
+  <td id=<%= "expire_at_#{boleto.id}" %> class="is-hidden-mobile"><%= boleto.expire_at %></td>
   <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td id=<%= "status_#{boleto.id}" %>>
     <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to t(:cancel),
-                  edit_boleto_path(boleto.id),
+                  cancel_boleto_path(boleto.id),
                   class: "button is-danger is-small is-rounded is-light",
                   data: {
                     controller: "modal",

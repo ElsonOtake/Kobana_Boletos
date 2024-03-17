@@ -1,5 +1,6 @@
 class BoletosController < ApplicationController
-  before_action :set_boleto, only: %i[ edit show ]
+  before_action :find_boleto, only: %i[ edit show cancel ]
+  before_action :set_boleto, only: %i[ create update ]
   
   def index
     @boletos = Boleto.new.all
@@ -13,15 +14,17 @@ class BoletosController < ApplicationController
     @cities = []
   end
 
+  def cancel
+  end
+
   def edit
   end
 
   def create
-    @boleto= Boleto.new(boleto_params)
     @boleto.create
     
     respond_to do |format|
-      if @boleto.persisted?
+      if @boleto.errors_empty?
         format.html { redirect_to root_path, notice: t(:successfully_created) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_created) }
       else
@@ -31,10 +34,10 @@ class BoletosController < ApplicationController
     end
   end
 
-  def update
+  def cancel_by_id
     boleto = Boleto.new.cancel(params[:id])
     respond_to do |format|
-      if boleto.persisted?
+      if boleto.errors_empty?
         @id = params[:id]
         format.html { redirect_to root_path, notice: t(:successfully_canceled) }
         format.turbo_stream { flash.now[:notice] = t(:successfully_canceled) }
@@ -47,17 +50,35 @@ class BoletosController < ApplicationController
     end
   end
 
+  def update
+    @boleto.update(params[:id])
+    respond_to do |format|
+      if @boleto.errors_empty?
+        @id = params[:id]
+        format.html { redirect_to root_path, notice: t(:successfully_updated) }
+        format.turbo_stream { flash.now[:notice] = t(:successfully_updated) }
+      else
+        @id = nil
+        format.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
 
-  def set_boleto
+  def find_boleto
     @boleto = Boleto.new.find(params[:id])
-    unless @boleto.persisted?
+    unless @boleto.errors_empty?
       respond_to do |format|
         message = JSON.parse(@boleto.response_errors).first.with_indifferent_access[:title]
         format.html { redirect_to root_path, notice: message }
         format.turbo_stream { flash.now[:notice] = message }
       end
     end
+  end
+
+  def set_boleto
+    @boleto= Boleto.new(boleto_params)
   end
 
   def boleto_params

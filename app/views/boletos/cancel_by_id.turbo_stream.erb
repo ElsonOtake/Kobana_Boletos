@@ -1,0 +1,2 @@
+<%= turbo_stream.update "status_#{@id}", "Canceled" unless @id.nil? %>
+<%= turbo_stream.prepend :flash, partial: "layouts/flash" %>

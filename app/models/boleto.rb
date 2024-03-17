@@ -1,4 +1,6 @@
 class Boleto
+  require 'uri'
+  require 'net/http'
   include ActiveModel::Model
   include ActiveModel::Attributes
 
@@ -25,6 +27,7 @@ class Boleto
   end
 
   def create
+    self.expire_at = self.first_week_day(self.expire_at)
     boleto = BoletoSimples::BankBillet.create(
       amount: self.amount,
       expire_at: self.expire_at,
@@ -41,8 +44,29 @@ class Boleto
     self.response_errors = boleto.response_errors.to_json
     self
   end
+
+  def update(id)
+    self.id = id
+    self.expire_at = self.first_week_day(self.expire_at)
+    url = URI("https://api-sandbox.kobana.com.br/v1/bank_billets/#{id}")
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Put.new(url)
+    request["accept"] = 'application/json'
+    request["content-type"] = 'application/json'
+    request["authorization"] = "Bearer #{ENV['BOLETOSIMPLES_API_TOKEN']}"
+    body = self.attributes.select { |key| ["amount", "expire_at"].include? key }
+    request.body = body.to_json
+    response = http.request(request)
+    if response.code == "204"
+      self.response_errors = "{}"
+    else
+      self.response_errors = JSON.parse(response.body)["errors"].to_json
+    end
+  end
   
-  def persisted?
+  def errors_empty?
     JSON.parse(self.response_errors).empty?
   end
 
@@ -83,5 +107,9 @@ class Boleto
     erro = Boleto.new
     erro.response_errors = [Hash[:title, message]].to_json
     erro
+  end
+
+  def first_week_day(date)
+    date.on_weekday? ? date : (date + 2).beginning_of_week
   end
 end

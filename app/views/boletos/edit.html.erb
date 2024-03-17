@@ -1,32 +1,3 @@
 <%= turbo_frame_tag :boleto_frame do %>
-  <p class="subtitle">
-    <%= t(:are_you_sure, name: @boleto.customer_person_name, amount: number_to_currency(@boleto.amount, unit: "")) %>
-  </p>
-
-  <div class="is-flex is-justify-content-space-evenly is-flex-wrap-wrap">
-    <%= link_to t(:yes_i_do),
-                boleto_path(@boleto.id),
-                class: "button is-danger is-rounded mt-4",
-                data: {
-                  turbo_method: :patch,
-                  controller: "modal",
-                  action: "modal#close"
-                }
-    %>
-    <%= link_to t(:show_bank_billet),
-                boleto_path(@boleto.id),
-                class: "button is-primary is-rounded mt-4",
-                data: {
-                  turbo_frame: "boleto_frame"
-                }
-    %>
-    <%= link_to t(:back),
-                boletos_path,
-                class: "button is-primary is-rounded mt-4",
-                data: {
-                  controller: "modal",
-                  action: "modal#close"
-                }
-    %>
-  </div>
+  <%= render "form", boleto: @boleto, url: boleto_url(@boleto.id), method: :patch %>
 <% end %>
