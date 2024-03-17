@@ -28,7 +28,7 @@
 
 # 📖 Kobana_Boletos <a name="about-project"></a>
 
-**Kobana_Boletos** is a bank-billet management CRUD. List, create, show details, and cancel a bank billet. The billets are created by integrating the Rails project with the [Kobana API in Sandbox](https://developers.kobana.com.br/reference/visao-geral). Tests included.
+**Kobana_Boletos** is a Rails application performing CRUD using an external API without persisting data in the local database table. List, create, update, show details, and cancel a bank billet. The billets are created by integrating the Rails project with the [Kobana API in Sandbox](https://developers.kobana.com.br/reference/visao-geral).
 
 
 ## 🛠 Built With <a name="built-with"></a>
@@ -239,8 +239,7 @@ This project is [MIT](./MIT.md) licensed.
 
 # 📖 Kobana_Boletos <a name="sobre-o-projeto"></a>
 
-**Kobana_Boletos** é um CRUD de gestão de boletos. É possível listar boletos, criar novos boletos, apresentar dados de um boleto e cancelar um boleto aberto. Os boletos são criados realizando a integração do projeto Rails com a [API da Kobana em Sandbox](https://developers.kobana.com.br/reference/visao-geral). O form de criação possui somente os campos obrigatórios da API. Testes cobrindo o que foi desenvolvido foram criados.
-
+**Kobana_Boletos** é uma aplicação Rails que executa CRUD usando uma API externa sem persistir dados na tabela do banco de dados local. É possível listar boletos, criar novos boletos, alterar boletos, apresentar dados de um boleto e cancelar um boleto aberto. Os boletos são criados realizando a integração do projeto Rails com a [API da Kobana em Sandbox](https://developers.kobana.com.br/reference/visao-geral).
 
 ## 🛠 Construído com <a name="construido-com"></a>
 
