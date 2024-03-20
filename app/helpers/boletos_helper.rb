@@ -11,4 +11,8 @@ module BoletosHelper
       value
     end
   end
+
+  def error_border(errors, field)
+    errors.has_key?(field) ? "input is-danger" : "input is-info"
+  end
 end
