@@ -32,6 +32,7 @@ pt:
       back: Voltar
     index:
       create_bank_billet: Criar boleto
+      actions: Ações
     show:
       edit_bank_billet: Alterar boleto
       cancel_bank_billet: Cancelar boleto
@@ -41,4 +42,10 @@ pt:
       show_bank_billet: Mostrar boleto
     bank_billet:
       cancel: Cancelar
+      status:
+        opened: Aberto
+        generating: Gerando
+        canceled: Cancelado
+        paid: Pago
+        overdue: Vencido
   
