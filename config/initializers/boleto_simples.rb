@@ -1,3 +1,9 @@
+# Compatibility shim for Rails 8
+module ActiveSupport
+  BasicObject = ::BasicObject unless const_defined?(:BasicObject)
+  ProxyObject = ::BasicObject unless const_defined?(:ProxyObject)
+end
+
 require 'boletosimples'
 
 BoletoSimples.configure do |c|
