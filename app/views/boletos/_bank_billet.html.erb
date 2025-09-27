@@ -15,6 +15,20 @@
   <td class="is-hidden-touch"><%= boleto.customer_city_name %></td>
   <td class="has-text-centered is-hidden-touch"><%= boleto.customer_state %></td>
   <td id=<%= "status_#{boleto.id}" %>>
+    <% case boleto.status %>
+    <% when "opened", "generating" %>
+      <span class="tag is-success"><%= t(".status.#{boleto.status}") %></span>
+    <% when "canceled" %>
+      <span class="tag is-danger"><%= t(".status.#{boleto.status}") %></span>
+    <% when "paid" %>
+      <span class="tag is-info"><%= t(".status.#{boleto.status}") %></span>
+    <% when "overdue" %>
+      <span class="tag is-warning"><%= t(".status.#{boleto.status}") %></span>
+    <% else %>
+      <span class="tag"><%= boleto.status.capitalize %></span>
+    <% end %>
+  </td>
+  <td>
     <% if ["opened", "generating"].include? boleto.status %>
       <%= link_to t('.cancel'),
                   cancel_boleto_path(boleto.id),
@@ -25,8 +39,6 @@
                     turbo_frame: "boleto_frame"
                   }
       %>
-    <% else %>
-      <%= boleto.status.capitalize %>
     <% end %>
   </td>
 </tr>

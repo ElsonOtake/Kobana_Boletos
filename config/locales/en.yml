@@ -32,6 +32,7 @@ en:
       back: Back
     index:
       create_bank_billet: Create bank billet
+      actions: Actions
     show:
       edit_bank_billet: Edit bank billet
       cancel_bank_billet: Cancel bank billet
@@ -41,3 +42,9 @@ en:
       show_bank_billet: Show bank billet
     bank_billet:
       cancel: Cancel
+      status:
+        opened: Open
+        generating: Generating
+        canceled: Canceled
+        paid: Paid
+        overdue: Overdue
